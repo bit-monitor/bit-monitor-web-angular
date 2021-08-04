@@ -1,0 +1,167 @@
+<div class="projectManage">
+    <app-spinner [isLoading]="isLoading" message="加载中，请稍候"></app-spinner>
+    <div class="projectManage-filterForms">
+        <nz-space nzSize="small">
+            <nz-space-item>
+                <button nz-button (click)="handleShowDetailDialog('add')" nzType="primary">新增</button>
+            </nz-space-item>
+            <nz-space-item>
+                <nz-input-group [nzSuffix]="suffixIconSearch">
+                    <input type="text" nz-input [(ngModel)]="filterForm.projectName" (ngModelChange)="getTableList()"
+                        placeholder="输入项目名称进行查询" />
+                </nz-input-group>
+                <ng-template #suffixIconSearch>
+                    <i nz-icon nzType="search"></i>
+                </ng-template>
+            </nz-space-item>
+        </nz-space>
+    </div>
+    <div class="projectManage-table">
+        <nz-table [nzData]="listData" [(nzPageIndex)]="filterForm.pageNum" [(nzPageSize)]="filterForm.pageSize"
+            nzShowSizeChanger [nzTotal]="paginationConfig.total" (nzPageIndexChange)="getTableList()"
+            (nzPageSizeChange)="getTableList()" [nzFrontPagination]="false">
+            <thead>
+                <tr>
+                    <th nzAlign="center">项目名</th>
+                    <th nzAlign="center">项目标识</th>
+                    <th nzAlign="center">项目描述</th>
+                    <th nzAlign="center">创建时间</th>
+                    <th nzAlign="center">修改时间</th>
+                    <th nzAlign="center">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of listData">
+                    <td nzAlign="center">{{ data.projectName }}</td>
+                    <td nzAlign="center">{{ data.projectIdentifier }}</td>
+                    <td nzAlign="center">{{ data.description }}</td>
+                    <td nzAlign="center">{{ data.createTime }}</td>
+                    <td nzAlign="center">{{ data.updateTime }}</td>
+                    <td nzAlign="center">
+                        <nz-space nzSize="small">
+                            <!-- <nz-space-item>
+                                <button nz-button (click)="handleShowDetailDialog('view', data)"
+                                    nzType="primary">查看</button>
+                            </nz-space-item> -->
+                            <nz-space-item>
+                                <button nz-button (click)="handleShowDetailDialog('edit', data)"
+                                    nzType="primary">编辑</button>
+                            </nz-space-item>
+                            <nz-space-item>
+                                <button nz-button (click)="handleShowDetailDialog('delete', data)" nzDanger
+                                    nzType="primary">删除</button>
+                            </nz-space-item>
+                        </nz-space>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+    <nz-modal [(nzVisible)]="showDetailDialog" [nzTitle]="detailDialogTitle" (nzOnCancel)="handleModalOnCancel()"
+        [nzFooter]="['add', 'edit'].indexOf(mode) > -1 ? modalFooter : null" [nzStyle]="{width: '600px'}">
+        <nz-tabset [(nzSelectedIndex)]="detailDialogTabIndex">
+            <nz-tab nzTitle="基本信息">
+                <form nz-form [formGroup]="validateForm">
+                    <nz-form-item nz-row nzJustify="center">
+                        <nz-form-label [nzSpan]="4" nzRequired nzFor="projectName">项目名</nz-form-label>
+                        <nz-form-control [nzSpan]="20" nzErrorTip="请输入项目名">
+                            <nz-input-group nzPrefixIcon="user">
+                                <input type="text" nz-input formControlName="projectName" placeholder="项目名" />
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item nz-row nzJustify="center">
+                        <nz-form-label [nzSpan]="4" nzFor="description">项目描述</nz-form-label>
+                        <nz-form-control [nzSpan]="20">
+                            <nz-input-group nzPrefixIcon="lock">
+                                <input type="text" nz-input formControlName="description" placeholder="项目描述" />
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item nz-row nzJustify="center">
+                        <nz-form-label [nzSpan]="4" nzFor="userList">关联用户</nz-form-label>
+                        <nz-form-control [nzSpan]="20" nzErrorTip="请选择关联用户">
+                            <nz-select id="userList" nzPlaceHolder="请选择关联用户" nzMode="multiple"
+                                formControlName="userList" [nzDisabled]="['add','edit'].indexOf(mode)===-1">
+                                <nz-option *ngFor="let user of userOptionsList" [nzValue]="user.value"
+                                    [nzLabel]="user.label"></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </form>
+            </nz-tab>
+            <nz-tab nzTitle="打点代码">
+                <form nz-form [formGroup]="validateForm">
+                    <nz-form-item nz-row nzJustify="center">
+                        <nz-form-label [nzSpan]="4" nzRequired nzFor="projectIdentifier">项目标识</nz-form-label>
+                        <nz-form-control [nzSpan]="20" nzErrorTip="请输入项目标识">
+                            <nz-input-group nzPrefixIcon="lock">
+                                <input type="text" nz-input formControlName="projectIdentifier" placeholder="项目标识" />
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item nz-row nzJustify="center">
+                        <nz-form-label [nzSpan]="4" nzRequired nzFor="accessType">接入方式</nz-form-label>
+                        <nz-form-control [nzSpan]="20" nzErrorTip="请选择接入方式">
+                            <nz-radio-group formControlName="accessType"
+                                [nzDisabled]="['add','edit'].indexOf(mode)===-1">
+                                <label *ngFor="let option of accessTypeOpitons" nz-radio [nzValue]="option.value"
+                                    [nzDisabled]="option.disabled">{{option.label}}</label>
+                            </nz-radio-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item nz-row nzJustify="center">
+                        <nz-form-label [nzSpan]="4" nzRequired nzFor="activeFuncs">开启功能</nz-form-label>
+                        <nz-form-control [nzSpan]="20" nzErrorTip="请至少选择一项开启功能">
+                            <nz-select formControlName="activeFuncs" nzMode="multiple" nzPlaceHolder="请选择开启功能"
+                                [nzDisabled]="['add','edit'].indexOf(mode)===-1">
+                                <nz-option *ngFor="let option of activeFuncsOptions" [nzLabel]="option.label"
+                                    [nzValue]="option.value">
+                                </nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item nz-row nzJustify="center">
+                        <nz-form-label [nzSpan]="4" nzRequired nzFor="isAutoUpload">自动上报</nz-form-label>
+                        <nz-form-control [nzSpan]="20">
+                            <nz-switch formControlName="isAutoUpload" nzCheckedChildren="是" nzUnCheckedChildren="否">
+                            </nz-switch>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item nz-row>
+                        <nz-form-label [nzSpan]="4">打点代码</nz-form-label>
+                        <nz-form-control [nzSpan]="20">
+                            <pre><code [highlight]="codeContent"></code></pre>
+                        </nz-form-control>
+                    </nz-form-item>
+                </form>
+            </nz-tab>
+            <nz-tab nzTitle="预警通知">
+                <form nz-form [formGroup]="validateForm">
+                    <nz-form-item nz-row nzJustify="center">
+                        <nz-form-label [nzSpan]="4" nzRequired nzFor="notifyDtToken">钉钉机器人</nz-form-label>
+                        <nz-form-control [nzSpan]="20" nzErrorTip="请输入钉钉机器人Webhook的access_token">
+                            <nz-input-group>
+                                <textarea type="text" nz-input formControlName="notifyDtToken"
+                                    placeholder="请输入钉钉机器人Webhook的access_token，多个用,隔开，如28a37417c6f1fd1c5f5ab3b72xxxxxxxxxxxxc0c1f052dfe1827e1bf32928c00"></textarea>
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item nz-row nzJustify="center">
+                        <nz-form-label [nzSpan]="4" nzRequired nzFor="notifyEmail">通知邮箱</nz-form-label>
+                        <nz-form-control [nzSpan]="20" nzErrorTip="请输入通知邮箱">
+                            <nz-input-group>
+                                <textarea type="text" nz-input formControlName="notifyEmail"
+                                    placeholder="请输入通知邮箱，多个用,隔开，如111@qq.com,222@qq.com"></textarea>
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </form>
+            </nz-tab>
+        </nz-tabset>
+        <ng-template #modalFooter>
+            <button nz-button nzType="default" (click)="handleModalOnCancel()">取消</button>
+            <button nz-button nzType="primary" (click)="handleModalOnOk()" [disabled]="!validateForm.valid">确定</button>
+        </ng-template>
+    </nz-modal>
+</div>
