@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ResourceLoadErrorLogComponent } from './resource-load-error-log.component';
 
@@ -6,7 +6,7 @@ describe('ResourceLoadErrorLogComponent', () => {
   let component: ResourceLoadErrorLogComponent;
   let fixture: ComponentFixture<ResourceLoadErrorLogComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ResourceLoadErrorLogComponent ]
     })

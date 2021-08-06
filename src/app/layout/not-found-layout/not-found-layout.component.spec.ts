@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { NotFoundLayoutComponent } from './not-found-layout.component';
 
@@ -6,7 +6,7 @@ describe('NotFoundLayoutComponent', () => {
     let component: NotFoundLayoutComponent;
     let fixture: ComponentFixture<NotFoundLayoutComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             declarations: [NotFoundLayoutComponent]
         })

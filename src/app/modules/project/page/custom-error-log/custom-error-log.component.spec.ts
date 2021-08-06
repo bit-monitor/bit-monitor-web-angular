@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { CustomErrorLogComponent } from './custom-error-log.component';
 
@@ -6,7 +6,7 @@ describe('CustomErrorLogComponent', () => {
   let component: CustomErrorLogComponent;
   let fixture: ComponentFixture<CustomErrorLogComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ CustomErrorLogComponent ]
     })
