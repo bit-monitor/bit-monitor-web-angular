@@ -2,10 +2,10 @@
     <app-spinner [isLoading]="isLoading" message="加载中，请稍候"></app-spinner>
     <div class="projectManage-filterForms">
         <nz-space nzSize="small">
-            <nz-space-item>
+            <nz-space-item *nzSpaceItem>
                 <button nz-button (click)="handleShowDetailDialog('add')" nzType="primary">新增</button>
             </nz-space-item>
-            <nz-space-item>
+            <nz-space-item *nzSpaceItem>
                 <nz-input-group [nzSuffix]="suffixIconSearch">
                     <input type="text" nz-input [(ngModel)]="filterForm.projectName" (ngModelChange)="getTableList()"
                         placeholder="输入项目名称进行查询" />
@@ -39,15 +39,15 @@
                     <td nzAlign="center">{{ data.updateTime }}</td>
                     <td nzAlign="center">
                         <nz-space nzSize="small">
-                            <!-- <nz-space-item>
+                            <!-- <nz-space-item *nzSpaceItem>
                                 <button nz-button (click)="handleShowDetailDialog('view', data)"
                                     nzType="primary">查看</button>
                             </nz-space-item> -->
-                            <nz-space-item>
+                            <nz-space-item *nzSpaceItem>
                                 <button nz-button (click)="handleShowDetailDialog('edit', data)"
                                     nzType="primary">编辑</button>
                             </nz-space-item>
-                            <nz-space-item>
+                            <nz-space-item *nzSpaceItem>
                                 <button nz-button (click)="handleShowDetailDialog('delete', data)" nzDanger
                                     nzType="primary">删除</button>
                             </nz-space-item>

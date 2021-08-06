@@ -255,8 +255,8 @@ export class AlarmConfigComponent implements OnInit {
 
     /**
      * 操作按钮点击事件
-     * @param mode 
-     * @param data 
+     * @param mode
+     * @param data
      */
     handleShowDetailDialog(mode: string, data?: Alarm): void {
         if (mode === 'delete') {
@@ -265,7 +265,7 @@ export class AlarmConfigComponent implements OnInit {
                 nzTitle: '提示',
                 nzContent: '确定要删除该预警吗？<br>(注意，此操作无法撤回！)',
                 nzOkText: '确定',
-                nzOkType: 'danger',
+                nzOkDanger: true,
                 nzOnOk: () => this.deleteAlarm(data.id),
                 nzCancelText: '取消'
             });
@@ -379,7 +379,7 @@ export class AlarmConfigComponent implements OnInit {
 
     /**
      * 根据详情数据设置页面展示数据
-     * @param data 
+     * @param data
      */
     setViewFormBySubmitForm(data: Alarm): any {
 
@@ -485,7 +485,7 @@ export class AlarmConfigComponent implements OnInit {
 
     /**
      * 删除预警
-     * @param id 
+     * @param id
      */
     deleteAlarm(id: number): void {
         this.isLoading = true;
@@ -513,8 +513,8 @@ export class AlarmConfigComponent implements OnInit {
 
     /**
      * 监控指标选择回调
-     * @param event 
-     * @param index 
+     * @param event
+     * @param index
      */
     handleRuleIndChange(event: string, index: number): void {
         const ruleOpItem = this.ruleIndOptionsList.find(item => item.value === event);
@@ -535,8 +535,8 @@ export class AlarmConfigComponent implements OnInit {
 
     /**
      * 判断取值方式的选项是否显示
-     * @param option 
-     * @param rule 
+     * @param option
+     * @param rule
      */
     isOpOptionDisabled(option, rule) {
         if (!rule.ind) {
@@ -552,8 +552,8 @@ export class AlarmConfigComponent implements OnInit {
 
     /**
      * 取值方式选择回调
-     * @param event 
-     * @param index 
+     * @param event
+     * @param index
      */
     handleRuleTypeChange(event: string, index: number): void {
         const ruleOpItem = this.ruleOpOptionsFullList.find(item => item.label === event);
@@ -590,8 +590,8 @@ export class AlarmConfigComponent implements OnInit {
 
     /**
      * 根据选项值获取文本
-     * @param value 
-     * @param optionList 
+     * @param value
+     * @param optionList
      */
     getOptionLabelByVal(value: string | number, optionList: Array<any>): string {
         const option = optionList.find(item => item.value === value);
@@ -604,8 +604,8 @@ export class AlarmConfigComponent implements OnInit {
 
     /**
      * 改变预案启动状态
-     * @param isActive 
-     * @param data 
+     * @param isActive
+     * @param data
      */
     handleChangeIsActive(isActive: boolean, data: any): void {
         const { id } = data;
@@ -633,7 +633,7 @@ export class AlarmConfigComponent implements OnInit {
 
     /**
      * 将后台存放的预警规则字符串，转换为页面显示的列表
-     * @param list 
+     * @param list
      */
     getRuleTextListByRules(list: Array<any>): Array<string> {
         if (!(list instanceof Array) || list.length === 0) {
@@ -655,8 +655,8 @@ export class AlarmConfigComponent implements OnInit {
 
     /**
      * 行展开或折叠
-     * @param event 
-     * @param row 
+     * @param event
+     * @param row
      */
     handleAlarmRowExpand(event: boolean, row: any): void {
         if (event) {
@@ -672,7 +672,7 @@ export class AlarmConfigComponent implements OnInit {
 
     /**
      * 获取预警记录列表
-     * @param row 
+     * @param row
      */
     getAlarmRecordList(row: any): void {
         this.isLoading = true;
@@ -712,8 +712,8 @@ export class AlarmConfigComponent implements OnInit {
 
     /**
      * 报警记录行展开或折叠
-     * @param event 
-     * @param row 
+     * @param event
+     * @param row
      */
     handleNotifyRowExpand(event: boolean, row: any): void {
         if (event) {
@@ -729,7 +729,7 @@ export class AlarmConfigComponent implements OnInit {
 
     /**
      * 获取报警记录列表
-     * @param row 
+     * @param row
      */
     getNotifyRecordList(row: any): void {
         this.isLoading = true;

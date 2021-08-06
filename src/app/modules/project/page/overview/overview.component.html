@@ -3,21 +3,21 @@
     <div class="overview-content">
         <div class="overview-filters">
             <nz-space nzSize="small">
-                <nz-space-item>
+                <nz-space-item *nzSpaceItem>
                     <nz-select nzPlaceHolder="选择项目" [(ngModel)]="filterForm.projectIdentifier"
                         (ngModelChange)="getPageData()">
                         <nz-option *ngFor="let project of projectList" [nzValue]="project.projectIdentifier"
                             [nzLabel]="project.projectName"></nz-option>
                     </nz-select>
                 </nz-space-item>
-                <nz-space-item>
+                <nz-space-item *nzSpaceItem>
                     <nz-range-picker nzShowTime nzFormat="yyyy-MM-dd HH:mm:ss" ngModel
                         (ngModelChange)="onSelectTimeRange($event)">
                     </nz-range-picker>
                 </nz-space-item>
             </nz-space>
         </div>
-        
+
         <ul class="overview-statistic">
             <li class="overview-statistic-item blue">
                 <div>

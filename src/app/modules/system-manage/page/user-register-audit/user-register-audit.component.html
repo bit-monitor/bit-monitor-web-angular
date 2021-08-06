@@ -2,12 +2,12 @@
     <app-spinner [isLoading]="isLoading" message="加载中，请稍候"></app-spinner>
     <div class="userRegisterAudit-filterForms">
         <nz-space nzSize="small">
-            <nz-space-item>
+            <nz-space-item *nzSpaceItem>
                 <nz-range-picker nzShowTime nzFormat="yyyy-MM-dd HH:mm:ss" ngModel
                     (ngModelChange)="onSelectTimeRange($event)">
                 </nz-range-picker>
             </nz-space-item>
-            <nz-space-item>
+            <nz-space-item *nzSpaceItem>
                 <nz-select id="gender" nzPlaceHolder="审核状态" [(ngModel)]="filterForm.auditResult" nzAllowClear
                     (ngModelChange)="getTableList()">
                     <nz-option nzValue="-1" nzLabel="未审核"></nz-option>
@@ -42,10 +42,10 @@
                     <td nzAlign="center">{{ data.auditTime }}</td>
                     <td nzAlign="center">
                         <nz-space *ngIf="data.auditResult === -1" nzSize="small">
-                            <nz-space-item>
+                            <nz-space-item *nzSpaceItem>
                                 <button nz-button (click)="audit(data.id, 1)" nzType="primary">通过</button>
                             </nz-space-item>
-                            <nz-space-item>
+                            <nz-space-item *nzSpaceItem>
                                 <button nz-button (click)="audit(data.id, 0)" nzType="primary" nzDanger>不通过</button>
                             </nz-space-item>
                         </nz-space>

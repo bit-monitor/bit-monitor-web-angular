@@ -2,7 +2,7 @@
     <app-spinner [isLoading]="isLoading" message="加载中，请稍候"></app-spinner>
     <div class="alarmRecord-filterForms">
         <nz-space nzSize="small">
-            <nz-space-item>
+            <nz-space-item *nzSpaceItem>
                 <nz-input-group [nzSuffix]="suffixIconSearch">
                     <input type="text" nz-input [(ngModel)]="filterForm.alarmData" (ngModelChange)="getAlarmRecord()"
                         placeholder="输入报警内容进行查询" />
@@ -11,12 +11,12 @@
                     <i nz-icon nzType="search"></i>
                 </ng-template>
             </nz-space-item>
-            <nz-space-item>
+            <nz-space-item *nzSpaceItem>
                 <nz-range-picker nzShowTime nzFormat="yyyy-MM-dd HH:mm:ss" [(ngModel)]="timeRangePicker"
                     (ngModelChange)="onTableSelectTimeRange($event)" [nzAllowClear]="false">
                 </nz-range-picker>
             </nz-space-item>
-            <nz-space-item>
+            <nz-space-item *nzSpaceItem>
                 <nz-radio-group [(ngModel)]="timeRange" (ngModelChange)="onTableTimeRangeChange()">
                     <label *ngFor="let timeInterval of timeIntervalList" nz-radio-button
                         [nzValue]="timeInterval.value">{{timeInterval.label}}</label>

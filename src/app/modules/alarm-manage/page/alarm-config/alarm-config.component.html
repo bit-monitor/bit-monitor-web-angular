@@ -2,10 +2,10 @@
     <app-spinner [isLoading]="isLoading" message="加载中，请稍候"></app-spinner>
     <div class="alarmManage-filterForms">
         <nz-space nzSize="small">
-            <nz-space-item>
+            <nz-space-item *nzSpaceItem>
                 <button nz-button (click)="handleShowDetailDialog('add')" nzType="primary">新增</button>
             </nz-space-item>
-            <nz-space-item>
+            <nz-space-item *nzSpaceItem>
                 <nz-input-group [nzSuffix]="suffixIconSearch">
                     <input type="text" nz-input [(ngModel)]="filterForm.name" (ngModelChange)="getTableList()"
                         placeholder="输入预警名称进行查询" />
@@ -69,11 +69,11 @@
                         </td>
                         <td nzAlign="center" style="vertical-align: middle;">
                             <nz-space nzSize="small">
-                                <nz-space-item>
+                                <nz-space-item *nzSpaceItem>
                                     <button nz-button (click)="handleShowDetailDialog('edit', alarm)"
                                         nzType="primary">编辑</button>
                                 </nz-space-item>
-                                <nz-space-item>
+                                <nz-space-item *nzSpaceItem>
                                     <button nz-button (click)="handleShowDetailDialog('delete', alarm)" nzDanger
                                         nzType="primary">删除</button>
                                 </nz-space-item>

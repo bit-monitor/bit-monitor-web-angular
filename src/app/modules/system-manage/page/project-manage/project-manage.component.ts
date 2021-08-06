@@ -205,7 +205,7 @@ export class ProjectManageComponent implements OnInit {
                 nzTitle: '提示',
                 nzContent: '确定要删除该项目吗？<br>(注意，此操作无法撤回！)',
                 nzOkText: '确定',
-                nzOkType: 'danger',
+                nzOkDanger: true,
                 nzOnOk: () => this.deleteProject(data.id),
                 nzCancelText: '取消'
             });

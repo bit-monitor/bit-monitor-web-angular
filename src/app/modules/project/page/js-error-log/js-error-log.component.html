@@ -45,12 +45,12 @@
         <div class="jsErrorLog-logTimeChart">
             <div class="jsErrorLog-logTimeChart-filters">
                 <nz-space nzSize="small">
-                    <nz-space-item>
+                    <nz-space-item *nzSpaceItem>
                         <nz-range-picker nzFormat="yyyy-MM-dd" [ngModel]="chartTimeRangeModel"
                             (ngModelChange)="onChartSelectTimeRange($event)" [nzAllowClear]="false">
                         </nz-range-picker>
                     </nz-space-item>
-                    <nz-space-item>
+                    <nz-space-item *nzSpaceItem>
                         <span>时间粒度：</span>
                         <nz-radio-group [(ngModel)]="logTimeChartFilterForm.timeInterval"
                             (ngModelChange)="onChartTimeIntervalChange()">
@@ -65,12 +65,12 @@
         <div class="jsErrorLog-table">
             <div class="jsErrorLog-table-filters">
                 <nz-space nzSize="small">
-                    <nz-space-item>
+                    <nz-space-item *nzSpaceItem>
                         <nz-range-picker nzShowTime nzFormat="yyyy-MM-dd HH:mm:ss" [(ngModel)]="timeRangePicker"
                             (ngModelChange)="onTableSelectTimeRange($event)" [nzAllowClear]="false">
                         </nz-range-picker>
                     </nz-space-item>
-                    <nz-space-item>
+                    <nz-space-item *nzSpaceItem>
                         <nz-radio-group [(ngModel)]="timeRange" (ngModelChange)="onTableTimeRangeChange()">
                             <label *ngFor="let timeInterval of timeIntervalList" nz-radio-button
                                 [nzValue]="timeInterval.value">{{timeInterval.label}}</label>
