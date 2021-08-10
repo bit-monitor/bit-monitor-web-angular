@@ -121,7 +121,7 @@ export class ProjectManageComponent implements OnInit {
     getUserOptionsList(): void {
         this.isLoading = true;
         this.userService.getUsers(
-            {},
+            {isNeedPaging: 0},
             res => {
                 console.log('[成功]获取关联用户列表', res);
                 this.isLoading = false;
