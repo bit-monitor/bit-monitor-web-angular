@@ -38,8 +38,8 @@
             <tbody>
                 <ng-template ngFor let-alarm [ngForOf]="alarmTable.data">
                     <tr>
-                        <td nzAlign="center" [(nzExpand)]="alarm.expand" (nzExpandChange)="handleAlarmRowExpand($event, alarm)"
-                            style="vertical-align: middle;"></td>
+                        <td nzAlign="center" [(nzExpand)]="alarm.expand"
+                            (nzExpandChange)="handleAlarmRowExpand($event, alarm)" style="vertical-align: middle;"></td>
                         <td nzAlign="center" style="vertical-align: middle;">{{ alarm.name }}</td>
                         <td nzAlign="center" style="vertical-align: middle;">
                             <nz-tag>{{ alarm.categoryText }}</nz-tag>
@@ -83,8 +83,9 @@
                     <tr [nzExpand]="alarm.expand">
                         <nz-table #alarmRecordTable [nzData]="alarm.children" [(nzPageIndex)]="alarm.filterForm.pageNum"
                             [(nzPageSize)]="alarm.filterForm.pageSize" [nzTotal]="alarm.paginationConfig.total"
-                            (nzPageIndexChange)="getAlarmRecordList(alarm)" (nzPageSizeChange)="getAlarmRecordList(alarm)"
-                            [nzScroll]="{y: '300px'}" [nzFrontPagination]="false" [nzShowTotal]="recordTotalTemplate">
+                            (nzPageIndexChange)="getAlarmRecordList(alarm)"
+                            (nzPageSizeChange)="getAlarmRecordList(alarm)" [nzScroll]="{y: '300px'}"
+                            [nzFrontPagination]="false" [nzShowTotal]="recordTotalTemplate">
                             <thead>
                                 <tr>
                                     <th nzAlign="center" [nzWidth]="'40px'"></th>
@@ -92,172 +93,176 @@
                                     <th nzAlign="center">报警内容</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <ng-template ngFor let-alarmRecord [ngForOf]="alarmRecordTable.data">
-                                    <tr>
-                                        <td nzAlign="center" [(nzExpand)]="alarmRecord.expand" (nzExpandChange)="handleNotifyRowExpand($event, alarmRecord)"
-                                            style="vertical-align: middle;"></td>
-                                        <td nzAlign="center" style="vertical-align: middle;">{{ alarmRecord.createTimeText }}</td>
-                                        <td nzAlign="center" style="vertical-align: middle;">{{ alarmRecord.alarmData }}</td>
-                                    </tr>
-                                    <tr [nzExpand]="alarmRecord.expand">
-                                        <nz-table #notifyRecordTable [nzData]="alarmRecord.children" [(nzPageIndex)]="alarmRecord.filterForm.pageNum"
-                                            [(nzPageSize)]="alarmRecord.filterForm.pageSize" [nzTotal]="alarmRecord.paginationConfig.total"
-                                            (nzPageIndexChange)="getNotifyRecordList(alarmRecord)" (nzPageSizeChange)="getNotifyRecordList(alarmRecord)"
-                                            [nzScroll]="{y: '300px'}" [nzFrontPagination]="false">
-                                            <thead>
-                                                <tr>
-                                                    <th nzAlign="center" [nzWidth]="'180px'">通知时间</th>
-                                                    <th nzAlign="center">通知内容</th>
-                                                    <th nzAlign="center" [nzWidth]="'120px'">通知方式</th>
-                                                    <th nzAlign="center" [nzWidth]="'120px'">推送结果</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr *ngFor="let notifyRecord of notifyRecordTable.data">
-                                                    <td nzAlign="center" style="vertical-align: middle;">{{ notifyRecord.createTimeText }}</td>
-                                                    <td nzAlign="center" style="vertical-align: middle;">{{ notifyRecord.content }}</td>
-                                                    <td nzAlign="center" style="vertical-align: middle;">
-                                                        <i *ngIf="notifyRecord.category === 1" nz-icon nzType="dingding"
-                                                        nzTheme="outline"></i>
-                                                        <i *ngIf="notifyRecord.category === 2" nz-icon nzType="mail"
-                                                            nzTheme="outline"></i>
-                                                    </td>
-                                                    <td nzAlign="center" style="vertical-align: middle;">{{ notifyRecord.stateText }}</td>
-                                                </tr>
-                                            </tbody>
-                                        </nz-table>
-                                    </tr>
-                                </ng-template>
-                            </tbody>
-                        </nz-table>
-                        <ng-template #recordTotalTemplate let-total> 共 {{ alarm.paginationConfig.total }} 条 </ng-template>
+            <tbody>
+                <ng-template ngFor let-alarmRecord [ngForOf]="alarmRecordTable.data">
+                    <tr>
+                        <td nzAlign="center" [(nzExpand)]="alarmRecord.expand"
+                            (nzExpandChange)="handleNotifyRowExpand($event, alarmRecord)"
+                            style="vertical-align: middle;"></td>
+                        <td nzAlign="center" style="vertical-align: middle;">{{ alarmRecord.createTimeText }}</td>
+                        <td nzAlign="center" style="vertical-align: middle;">{{ alarmRecord.alarmData }}</td>
                     </tr>
-                </ng-template>
+                    <tr [nzExpand]="alarmRecord.expand">
+                        <nz-table #notifyRecordTable [nzData]="alarmRecord.children"
+                            [(nzPageIndex)]="alarmRecord.filterForm.pageNum"
+                            [(nzPageSize)]="alarmRecord.filterForm.pageSize"
+                            [nzTotal]="alarmRecord.paginationConfig.total"
+                            (nzPageIndexChange)="getNotifyRecordList(alarmRecord)"
+                            (nzPageSizeChange)="getNotifyRecordList(alarmRecord)" [nzScroll]="{y: '300px'}"
+                            [nzFrontPagination]="false">
+                            <thead>
+                                <tr>
+                                    <th nzAlign="center" [nzWidth]="'180px'">通知时间</th>
+                                    <th nzAlign="center">通知内容</th>
+                                    <th nzAlign="center" [nzWidth]="'120px'">通知方式</th>
+                                    <th nzAlign="center" [nzWidth]="'120px'">推送结果</th>
+                                </tr>
+                            </thead>
+            <tbody>
+                <tr *ngFor="let notifyRecord of notifyRecordTable.data">
+                    <td nzAlign="center" style="vertical-align: middle;">{{ notifyRecord.createTimeText }}</td>
+                    <td nzAlign="center" style="vertical-align: middle;">{{ notifyRecord.content }}</td>
+                    <td nzAlign="center" style="vertical-align: middle;">
+                        <i *ngIf="notifyRecord.category === 1" nz-icon nzType="dingding" nzTheme="outline"></i>
+                        <i *ngIf="notifyRecord.category === 2" nz-icon nzType="mail" nzTheme="outline"></i>
+                    </td>
+                    <td nzAlign="center" style="vertical-align: middle;">{{ notifyRecord.stateText }}</td>
+                </tr>
             </tbody>
+        </nz-table>
+        </tr>
+        </ng-template>
+        </tbody>
+        </nz-table>
+        <ng-template #recordTotalTemplate let-total> 共 {{ alarm.paginationConfig.total }} 条 </ng-template>
+        </tr>
+        </ng-template>
+        </tbody>
         </nz-table>
         <ng-template #totalTemplate let-total> 共 {{ paginationConfig.total }} 条 </ng-template>
     </div>
 
     <nz-modal [(nzVisible)]="showDetailDialog" [nzTitle]="detailDialogTitle" (nzOnCancel)="handleModalOnCancel()"
         [nzFooter]="['add', 'edit'].indexOf(mode) > -1 ? modalFooter : null" [nzStyle]="{width: '1000px'}"
-        nzClassName="alarmManage-dialog">
-        <form nz-form [formGroup]="validateForm">
-            <nz-form-item nz-row nzJustify="center">
-                <nz-form-label [nzSpan]="2" nzFor="name">预警名称</nz-form-label>
-                <nz-form-control [nzSpan]="22" nzErrorTip="请输入预警名称">
-                    <nz-input-group>
-                        <input type="text" nz-input formControlName="name" placeholder="预警名称" />
-                    </nz-input-group>
-                </nz-form-control>
-            </nz-form-item>
-            <nz-form-item nz-row nzJustify="center">
-                <nz-form-label [nzSpan]="2" nzFor="category">过滤条件</nz-form-label>
-                <nz-form-control [nzSpan]="22" nzErrorTip="请选择过滤条件">
-                    <nz-select id="category" nzPlaceHolder="请选择过滤条件" formControlName="category"
-                        [nzDisabled]="['add','edit'].indexOf(mode)===-1">
-                        <nz-option *ngFor="let option of categoryOptionsList" [nzValue]="option.value"
-                            [nzLabel]="option.label">
-                        </nz-option>
-                    </nz-select>
-                </nz-form-control>
-            </nz-form-item>
-        </form>
-        <div nz-row>
-            <div nz-col nzSpan="2" class="alarmManage-row-label">报警条件：</div>
-            <div nz-col nzSpan="22">
-                <nz-radio-group [nzDisabled]="['add','edit'].indexOf(mode)===-1" [(ngModel)]="ruleOp">
-                    <label *ngFor="let option of ruleOperatorOptionsList" nz-radio [nzValue]="option.value"
-                        [nzDisabled]="option.disabled">{{option.label}}</label>
-                </nz-radio-group>
-            </div>
-        </div>
-        <div nz-row>
-            <div nz-col nzSpan="2" class="alarmManage-row-label"></div>
-            <div nz-col nzSpan="22">
-                <div *ngFor="let rule of ruleRules;let i = index;" nz-row class="alarmManage-row-item">
-                    <div nz-col nzSpan="4" class="padr4">
-                        <nz-select [(ngModel)]="rule.ind" (ngModelChange)="handleRuleIndChange($event, i)"
-                            class="width100" nzPlaceHolder="监控指标" [nzDisabled]="['add','edit'].indexOf(mode)===-1">
-                            <nz-option *ngFor="let option of ruleIndOptionsList" [nzValue]="option.value"
+        nzClassName="alarmManage-dialog" [nzContent]="modalContent">
+        <ng-template #modalContent>
+            <form nz-form [formGroup]="validateForm">
+                <nz-form-item nz-row nzJustify="center">
+                    <nz-form-label [nzSpan]="2" nzFor="name">预警名称</nz-form-label>
+                    <nz-form-control [nzSpan]="22" nzErrorTip="请输入预警名称">
+                        <nz-input-group>
+                            <input type="text" nz-input formControlName="name" placeholder="预警名称" />
+                        </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item nz-row nzJustify="center">
+                    <nz-form-label [nzSpan]="2" nzFor="category">过滤条件</nz-form-label>
+                    <nz-form-control [nzSpan]="22" nzErrorTip="请选择过滤条件">
+                        <nz-select id="category" nzPlaceHolder="请选择过滤条件" formControlName="category"
+                            [nzDisabled]="['add','edit'].indexOf(mode)===-1">
+                            <nz-option *ngFor="let option of categoryOptionsList" [nzValue]="option.value"
                                 [nzLabel]="option.label">
                             </nz-option>
                         </nz-select>
-                    </div>
-                    <div nz-col nzSpan="10" class="padr4">
-                        <nz-select [(ngModel)]="rule.type" (ngModelChange)="handleRuleTypeChange($event, i)"
-                            class="width100" nzPlaceHolder="取值方式" [nzDisabled]="['add','edit'].indexOf(mode)===-1">
-                            <ng-container *ngFor="let option of ruleOpOptionsFullList">
-                                <nz-option [nzDisabled]="isOpOptionDisabled(option, rule)" [nzValue]="option.label"
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+            <div nz-row>
+                <div nz-col nzSpan="2" class="alarmManage-row-label">报警条件：</div>
+                <div nz-col nzSpan="22">
+                    <nz-radio-group [nzDisabled]="['add','edit'].indexOf(mode)===-1" [(ngModel)]="ruleOp">
+                        <label *ngFor="let option of ruleOperatorOptionsList" nz-radio [nzValue]="option.value"
+                            [nzDisabled]="option.disabled">{{option.label}}</label>
+                    </nz-radio-group>
+                </div>
+            </div>
+            <div nz-row>
+                <div nz-col nzSpan="2" class="alarmManage-row-label"></div>
+                <div nz-col nzSpan="22">
+                    <div *ngFor="let rule of ruleRules;let i = index;" nz-row class="alarmManage-row-item">
+                        <div nz-col nzSpan="4" class="padr4">
+                            <nz-select [(ngModel)]="rule.ind" (ngModelChange)="handleRuleIndChange($event, i)"
+                                class="width100" nzPlaceHolder="监控指标" [nzDisabled]="['add','edit'].indexOf(mode)===-1">
+                                <nz-option *ngFor="let option of ruleIndOptionsList" [nzValue]="option.value"
                                     [nzLabel]="option.label">
                                 </nz-option>
-                            </ng-container>
-                        </nz-select>
-                    </div>
-                    <div nz-col nzSpan="4" class="padr4">
-                        <nz-input-group [nzAddOnAfter]="rule.timeSpanText">
-                            <input type="number" nz-input [(ngModel)]="rule.timeSpan" placeholder="N=?" min="0" />
-                        </nz-input-group>
-                    </div>
-                    <div nz-col nzSpan="4">
-                        <nz-input-group [nzAddOnAfter]="rule.valText">
-                            <input type="number" nz-input [(ngModel)]="rule.val" placeholder="报警阈值" min="0" />
-                        </nz-input-group>
-                    </div>
-                    <div nz-col nzSpan="2" class="alarmManage-row-icon">
-                        <i nz-icon nzType="plus-circle" nzTheme="outline" (click)="handleAddRule()"></i>
-                        <i *ngIf="i > 0" nz-icon nzType="minus-circle" nzTheme="outline"
-                            (click)="handleRemoveRule($event, i)"></i>
+                            </nz-select>
+                        </div>
+                        <div nz-col nzSpan="10" class="padr4">
+                            <nz-select [(ngModel)]="rule.type" (ngModelChange)="handleRuleTypeChange($event, i)"
+                                class="width100" nzPlaceHolder="取值方式" [nzDisabled]="['add','edit'].indexOf(mode)===-1">
+                                <ng-container *ngFor="let option of ruleOpOptionsFullList">
+                                    <nz-option [nzDisabled]="isOpOptionDisabled(option, rule)" [nzValue]="option.label"
+                                        [nzLabel]="option.label">
+                                    </nz-option>
+                                </ng-container>
+                            </nz-select>
+                        </div>
+                        <div nz-col nzSpan="4" class="padr4">
+                            <nz-input-group [nzAddOnAfter]="rule.timeSpanText">
+                                <input type="number" nz-input [(ngModel)]="rule.timeSpan" placeholder="N=?" min="0" />
+                            </nz-input-group>
+                        </div>
+                        <div nz-col nzSpan="4">
+                            <nz-input-group [nzAddOnAfter]="rule.valText">
+                                <input type="number" nz-input [(ngModel)]="rule.val" placeholder="报警阈值" min="0" />
+                            </nz-input-group>
+                        </div>
+                        <div nz-col nzSpan="2" class="alarmManage-row-icon">
+                            <i nz-icon nzType="plus-circle" nzTheme="outline" (click)="handleAddRule()"></i>
+                            <i *ngIf="i > 0" nz-icon nzType="minus-circle" nzTheme="outline"
+                                (click)="handleRemoveRule($event, i)"></i>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <form nz-form [formGroup]="validateForm">
-            <nz-form-item nz-row nzJustify="center">
-                <nz-form-label [nzSpan]="2">报警时段</nz-form-label>
-                <nz-form-control [nzSpan]="22">
-                    <nz-time-picker formControlName="startTime" [nzFormat]="'HH:mm'" class="mgr4"></nz-time-picker>
-                    <nz-time-picker formControlName="endTime" [nzFormat]="'HH:mm'"></nz-time-picker>
-                </nz-form-control>
-            </nz-form-item>
-            <nz-form-item nz-row nzJustify="left">
-                <nz-form-label [nzSpan]="2">静默期</nz-form-label>
-                <nz-form-control [nzSpan]="6">
-                    <nz-select id="category" formControlName="silentPeriod"
-                        [nzDisabled]="['add','edit'].indexOf(mode)===-1">
-                        <nz-option *ngFor="let option of silentPeriodOptionsList" [nzValue]="option.value"
-                            [nzLabel]="option.label">
-                        </nz-option>
-                    </nz-select>
-                </nz-form-control>
-            </nz-form-item>
-            <nz-form-item nz-row nzJustify="left">
-                <nz-form-label [nzSpan]="2">通知方式</nz-form-label>
-                <nz-form-control [nzSpan]="6" nzErrorTip="请至少选择一种通知方式">
-                    <nz-select id="category" formControlName="subscriberList"
-                        [nzDisabled]="['add','edit'].indexOf(mode)===-1" nzMode="multiple">
-                        <nz-option *ngFor="let option of subscriberListOptionsList" [nzValue]="option.value"
-                            [nzLabel]="option.label">
-                        </nz-option>
-                    </nz-select>
-                </nz-form-control>
-            </nz-form-item>
-            <nz-form-item nz-row nzJustify="left">
-                <nz-form-label [nzSpan]="2">报警等级</nz-form-label>
-                <nz-form-control [nzSpan]="22">
-                    <nz-radio-group [nzDisabled]="['add','edit'].indexOf(mode)===-1" formControlName="level">
-                        <label *ngFor="let option of ruleLevelOptionsList" nz-radio [nzValue]="option.value"
-                            [nzDisabled]="option.disabled">{{option.label}}</label>
-                    </nz-radio-group>
-                </nz-form-control>
-            </nz-form-item>
-            <nz-form-item nz-row nzJustify="left">
-                <nz-form-label [nzSpan]="2">是否启用</nz-form-label>
-                <nz-form-control [nzSpan]="22">
-                    <nz-switch formControlName="isActive" nzCheckedChildren="是" nzUnCheckedChildren="否"></nz-switch>
-                </nz-form-control>
-            </nz-form-item>
-        </form>
+            <form nz-form [formGroup]="validateForm">
+                <nz-form-item nz-row nzJustify="center">
+                    <nz-form-label [nzSpan]="2">报警时段</nz-form-label>
+                    <nz-form-control [nzSpan]="22">
+                        <nz-time-picker formControlName="startTime" [nzFormat]="'HH:mm'" class="mgr4"></nz-time-picker>
+                        <nz-time-picker formControlName="endTime" [nzFormat]="'HH:mm'"></nz-time-picker>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item nz-row nzJustify="left">
+                    <nz-form-label [nzSpan]="2">静默期</nz-form-label>
+                    <nz-form-control [nzSpan]="6">
+                        <nz-select id="category" formControlName="silentPeriod"
+                            [nzDisabled]="['add','edit'].indexOf(mode)===-1">
+                            <nz-option *ngFor="let option of silentPeriodOptionsList" [nzValue]="option.value"
+                                [nzLabel]="option.label">
+                            </nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item nz-row nzJustify="left">
+                    <nz-form-label [nzSpan]="2">通知方式</nz-form-label>
+                    <nz-form-control [nzSpan]="6" nzErrorTip="请至少选择一种通知方式">
+                        <nz-select id="category" formControlName="subscriberList"
+                            [nzDisabled]="['add','edit'].indexOf(mode)===-1" nzMode="multiple">
+                            <nz-option *ngFor="let option of subscriberListOptionsList" [nzValue]="option.value"
+                                [nzLabel]="option.label">
+                            </nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item nz-row nzJustify="left">
+                    <nz-form-label [nzSpan]="2">报警等级</nz-form-label>
+                    <nz-form-control [nzSpan]="22">
+                        <nz-radio-group [nzDisabled]="['add','edit'].indexOf(mode)===-1" formControlName="level">
+                            <label *ngFor="let option of ruleLevelOptionsList" nz-radio [nzValue]="option.value"
+                                [nzDisabled]="option.disabled">{{option.label}}</label>
+                        </nz-radio-group>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item nz-row nzJustify="left">
+                    <nz-form-label [nzSpan]="2">是否启用</nz-form-label>
+                    <nz-form-control [nzSpan]="22">
+                        <nz-switch formControlName="isActive" nzCheckedChildren="是" nzUnCheckedChildren="否"></nz-switch>
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+        </ng-template>
         <ng-template #modalFooter>
             <button nz-button nzType="default" (click)="handleModalOnCancel()">取消</button>
             <button nz-button nzType="primary" (click)="handleModalOnOk()" [disabled]="!validateForm.valid">保存</button>
