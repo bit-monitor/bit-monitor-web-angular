@@ -183,6 +183,8 @@ export class AdvancedSearchContainerComponent implements OnInit {
             ...this.conditionKeyListBasic,
             ...conditionKeyTargetList
         ];
+        // 修改监控指标后，重置分页
+        this.filterForm.pageNum = 1;
     }
 
     /**
