@@ -20,7 +20,7 @@ export class AlarmRecordComponent implements OnInit {
     filterForm = {
         pageNum: 1,
         pageSize: 10,
-        alarmId: null,
+        // alarmId: '',
         alarmData: '',
         startTime: '',
         endTime: '',
