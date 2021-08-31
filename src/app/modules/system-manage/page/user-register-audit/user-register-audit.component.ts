@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import * as moment from 'moment';
 
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { UserService } from '@data/service/user.service';
-import { AUDIT_RESULT_MAP, GENDER_MAP } from '@core/constants/system-manage.const';
+import {NzMessageService} from 'ng-zorro-antd/message';
+import {UserService} from '@data/service/user.service';
+import {AUDIT_RESULT_MAP, GENDER_MAP} from '@core/constants/system-manage.const';
 
 @Component({
     selector: 'app-user-register-audit',
@@ -22,7 +22,7 @@ export class UserRegisterAuditComponent implements OnInit {
         auditResult: ''
     };
     // 数据列表
-    listData: Array<Object>;
+    listData: Array<object>;
     // 分页控制器
     paginationConfig = {
         total: 0
@@ -61,11 +61,11 @@ export class UserRegisterAuditComponent implements OnInit {
             res => {
                 console.log('[成功]查询用户注册记录', res);
                 this.isLoading = false;
-                const { success, data, msg } = res;
+                const {success, data, msg} = res;
                 if (!success) {
                     this.message.error(msg || '查询用户注册记录失败');
                 } else {
-                    let { records, totalNum } = data;
+                    const {records, totalNum} = data;
                     this.listData = records.map(item => ({
                         id: item.id,
                         username: item.username,
@@ -88,17 +88,17 @@ export class UserRegisterAuditComponent implements OnInit {
 
     /**
      * 用户注册记录审批
-     * @param auditId 
-     * @param auditResult 
+     * @param auditId 工单id
+     * @param auditResult 审批结果
      */
     audit(auditId: number, auditResult: number): void {
         this.isLoading = true;
         this.userService.audit(
-            { auditId, auditResult },
+            {auditId, auditResult},
             res => {
                 console.log('[成功]审核注册记录', res);
                 this.isLoading = false;
-                const { success, msg } = res;
+                const {success, msg} = res;
                 if (success) {
                     this.message.success('审核成功').onClose.subscribe(() => {
                         this.getTableList();

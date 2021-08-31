@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import * as moment from 'moment';
-import { EChartOption } from 'echarts';
+import {EChartOption} from 'echarts';
 
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { UserService } from '@data/service/user.service';
-import { LogService } from '@data/service/log.service';
+import {NzMessageService} from 'ng-zorro-antd/message';
+import {UserService} from '@data/service/user.service';
+import {LogService} from '@data/service/log.service';
 
-import { Project } from '@data/classes/project.class';
+import {Project} from '@data/classes/project.class';
 
 @Component({
     selector: 'app-overview',
@@ -105,7 +105,8 @@ export class OverviewComponent implements OnInit {
         private userService: UserService,
         private logService: LogService,
         private message: NzMessageService
-    ) { }
+    ) {
+    }
 
     ngOnInit(): void {
         this.getUserRelatedProjectList();
@@ -143,7 +144,7 @@ export class OverviewComponent implements OnInit {
      * 获取总览页信息
      */
     getOverallByTimeRange(): void {
-        let { projectIdentifier, startTime, endTime } = this.filterForm;
+        const {projectIdentifier, startTime, endTime} = this.filterForm;
         if (!projectIdentifier) {
             this.message.warning('请选择项目');
             return;
@@ -158,7 +159,7 @@ export class OverviewComponent implements OnInit {
             res => {
                 console.log('[成功]获取总览页信息', res);
                 this.isLoading = false;
-                const { success, data, msg } = res;
+                const {success, data, msg} = res;
                 if (!success) {
                     this.message.error(msg || '获取总览页信息失败');
                 } else {
@@ -176,7 +177,7 @@ export class OverviewComponent implements OnInit {
      * 获取日志统计数据
      */
     getLogCountByHours(): void {
-        let { projectIdentifier, startTime, endTime } = this.filterForm;
+        const {projectIdentifier, startTime, endTime} = this.filterForm;
         if (!projectIdentifier || !startTime || !endTime) {
             return;
         }
@@ -187,23 +188,23 @@ export class OverviewComponent implements OnInit {
             res => {
                 console.log('[成功]获取日志统计数据', res);
                 this.isLoading = false;
-                let chartData = [];
+                const chartData = [];
                 this.logTypeList.map(item => item.name).forEach((name, index) => {
-                    let response = res[index];
+                    const response = res[index];
                     if (!response.success) {
                         this.message.warning(`${name}统计数据获取失败`);
                         chartData.push({
-                            name: name,
+                            name,
                             data: []
                         });
                         return;
                     }
                     chartData.push({
-                        name: name,
+                        name,
                         data: response.data.now
                     });
                 });
-                let option = {
+                this.chartOption = {
                     ...this.chartOption,
                     legend: {
                         data: this.logTypeList.map(item => item.name)
@@ -223,7 +224,6 @@ export class OverviewComponent implements OnInit {
                         data: Object.values(item.data)
                     }))
                 };
-                this.chartOption = option;
             },
             err => {
                 console.log('[失败]获取日志统计数据', err);

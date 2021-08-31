@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
-import { HttpService } from './http.service';
-import { HttpErrorResponse } from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {HttpService} from './http.service';
+import {HttpErrorResponse} from '@angular/common/http';
+import {FailCallback, SuccessCallback} from '@data/types/http.type';
 
 @Injectable({
     providedIn: 'root'
@@ -14,7 +15,8 @@ export class AuthService {
 
     constructor(
         private httpService: HttpService
-    ) { }
+    ) {
+    }
 
     public getAuthIgnoreList(): string[] {
         return this.AUTH_IGNORE_LIST;
@@ -28,24 +30,32 @@ export class AuthService {
         this.token = token;
     }
 
-    public login(params: Object, successCallback?: Function, failCallback?: Function): void {
+    public login(params: object, successCallback?: SuccessCallback, failCallback?: FailCallback): void {
         this.httpService.post('/user/login', params).subscribe(
             (res: any) => {
-                successCallback && successCallback(res);
+                if (typeof successCallback === 'function') {
+                    successCallback(res);
+                }
             },
             (err: HttpErrorResponse) => {
-                failCallback && failCallback(err);
+                if (typeof failCallback === 'function') {
+                    failCallback(err);
+                }
             }
         );
     }
 
-    public register(params: Object, successCallback?: Function, failCallback?: Function): void {
+    public register(params: object, successCallback?: SuccessCallback, failCallback?: FailCallback): void {
         this.httpService.put('/userRegisterRecord/add', params).subscribe(
             (res: any) => {
-                successCallback && successCallback(res);
+                if (typeof successCallback === 'function') {
+                    successCallback(res);
+                }
             },
             (err: HttpErrorResponse) => {
-                failCallback && failCallback(err);
+                if (typeof failCallback === 'function') {
+                    failCallback(err);
+                }
             }
         );
     }

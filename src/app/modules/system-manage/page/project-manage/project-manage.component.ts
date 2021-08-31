@@ -1,14 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import * as moment from 'moment';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzModalService } from 'ng-zorro-antd/modal';
-import { EnvService } from '@core/service/env.service';
-import { UserService } from '@data/service/user.service';
-import { ProjectService } from '@data/service/project.service';
+import {NzMessageService} from 'ng-zorro-antd/message';
+import {NzModalService} from 'ng-zorro-antd/modal';
+import {EnvService} from '@core/service/env.service';
+import {UserService} from '@data/service/user.service';
+import {ProjectService} from '@data/service/project.service';
 
-import { Project } from '@data/classes/project.class';
+import {Project} from '@data/classes/project.class';
 
 @Component({
     selector: 'app-project-manage',
@@ -31,7 +31,7 @@ export class ProjectManageComponent implements OnInit {
         projectName: ''
     };
     // 数据列表
-    listData: Array<Object>;
+    listData: Array<object>;
     // 分页控制器
     paginationConfig = {
         total: 0
@@ -40,18 +40,18 @@ export class ProjectManageComponent implements OnInit {
     userOptionsList = [];
     validateForm!: FormGroup;
     // 标签序列
-    detailDialogTabIndex: number = 0;
+    detailDialogTabIndex = 0;
     // 接入方式
-    accessTypeOpitons = [
-        { label: '<script>标签引入', value: 'script', disabled: false },
-        { label: 'npm', value: 'npm', disabled: true },
+    accessTypeOptions = [
+        {label: '<script>标签引入', value: 'script', disabled: false},
+        {label: 'npm', value: 'npm', disabled: true},
     ];
     // 开启功能
     activeFuncsOptions = [
-        { label: 'JS异常', value: 'jsError' },
-        { label: 'HTTP异常', value: 'httpError' },
-        { label: '静态资源异常', value: 'ResourceLoadError' },
-        { label: '自定义异常', value: 'customError' },
+        {label: 'JS异常', value: 'jsError'},
+        {label: 'HTTP异常', value: 'httpError'},
+        {label: '静态资源异常', value: 'ResourceLoadError'},
+        {label: '自定义异常', value: 'customError'},
     ];
     // 打点代码-ngx-codemirror配置
     ngxCodeMirrorOptions = {
@@ -63,7 +63,7 @@ export class ProjectManageComponent implements OnInit {
         autoFocus: true
     };
     // 打点代码-内容
-    codeContent: string = '';
+    codeContent = '';
 
     constructor(
         private envService: EnvService,
@@ -72,7 +72,8 @@ export class ProjectManageComponent implements OnInit {
         private message: NzMessageService,
         private modal: NzModalService,
         private fb: FormBuilder
-    ) { }
+    ) {
+    }
 
     ngOnInit(): void {
         this.initFormData();
@@ -125,7 +126,7 @@ export class ProjectManageComponent implements OnInit {
             res => {
                 console.log('[成功]获取关联用户列表', res);
                 this.isLoading = false;
-                let { success, data, msg } = res;
+                const {success, data, msg} = res;
                 if (!success) {
                     this.message.error(msg || '获取关联用户列表失败');
                 } else {
@@ -151,11 +152,11 @@ export class ProjectManageComponent implements OnInit {
             res => {
                 console.log('[成功]获取项目列表', res);
                 this.isLoading = false;
-                const { success, data, msg } = res;
+                const {success, data, msg} = res;
                 if (!success) {
                     this.message.error(msg || '获取项目列表失败');
                 } else {
-                    let { records, totalNum } = data;
+                    const {records, totalNum} = data;
                     this.listData = records.map(item => ({
                         ...item,
                         createTime: item.createTime && moment(new Date(item.createTime)).format('YYYY-MM-DD HH:mm:ss'),
@@ -195,8 +196,8 @@ export class ProjectManageComponent implements OnInit {
 
     /**
      * 操作按钮点击事件
-     * @param mode
-     * @param data
+     * @param mode 模式
+     * @param data 数据
      */
     handleShowDetailDialog(mode: string, data?: Project): void {
         if (mode === 'delete') {
@@ -234,7 +235,7 @@ export class ProjectManageComponent implements OnInit {
 
     /**
      * 动态设置打点代码
-     * @param projectIdentifier
+     * @param projectIdentifier 项目标识
      */
     setCodeContent(projectIdentifier: string): void {
         const jsSdkAPIBasicUrl = this.envService.getJsSdkAPIBasicUrl();
@@ -246,14 +247,14 @@ export class ProjectManageComponent implements OnInit {
      */
     onValidateFormChange(): void {
         this.validateForm.valueChanges.subscribe(value => {
-            const { projectIdentifier } = value;
+            const {projectIdentifier} = value;
             this.setCodeContent(projectIdentifier);
         });
     }
 
     /**
      * 设置操作模式
-     * @param mode
+     * @param mode 模式
      */
     setMode(mode: string): void {
         this.mode = mode;
@@ -276,7 +277,7 @@ export class ProjectManageComponent implements OnInit {
      */
     addProject(): void {
         this.isLoading = true;
-        let formData = this.validateForm.getRawValue();
+        const formData = this.validateForm.getRawValue();
         this.projectService.addProject(
             {
                 ...formData,
@@ -287,7 +288,7 @@ export class ProjectManageComponent implements OnInit {
             res => {
                 console.log('[成功]新增项目', res);
                 this.isLoading = false;
-                const { success, msg } = res;
+                const {success, msg} = res;
                 if (!success) {
                     this.message.error(msg || '新增项目失败');
                 } else {
@@ -308,7 +309,7 @@ export class ProjectManageComponent implements OnInit {
      */
     updateProject(): void {
         this.isLoading = true;
-        let formData = this.validateForm.getRawValue();
+        const formData = this.validateForm.getRawValue();
         this.projectService.updateProject(
             {
                 ...formData,
@@ -319,7 +320,7 @@ export class ProjectManageComponent implements OnInit {
             res => {
                 console.log('[成功]编辑项目', res);
                 this.isLoading = false;
-                const { success, msg } = res;
+                const {success, msg} = res;
                 if (!success) {
                     this.message.error(msg || '编辑项目失败');
                 } else {
@@ -343,7 +344,7 @@ export class ProjectManageComponent implements OnInit {
         this.projectService.deleteProject(
             id,
             res => {
-                const { success, msg } = res;
+                const {success, msg} = res;
                 this.isLoading = false;
                 if (success) {
                     console.log('[成功]删除', res);

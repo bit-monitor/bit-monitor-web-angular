@@ -1,17 +1,18 @@
-import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { Router } from '@angular/router';
+import {Injectable} from '@angular/core';
+import {HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse} from '@angular/common/http';
+import {Observable, throwError} from 'rxjs';
+import {catchError} from 'rxjs/operators';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
     constructor(
         private router: Router
-    ) { }
+    ) {
+    }
 
-    private handleError(her: HttpErrorResponse) {
+    private handleError(her: HttpErrorResponse): Observable<never> {
         if (her.error instanceof ErrorEvent) {
             console.error('An error occurred:', her.error.message);
         } else {

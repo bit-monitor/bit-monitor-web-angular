@@ -1,10 +1,10 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { SharedModule } from '@shared/shared.module';
+import {SharedModule} from '@shared/shared.module';
 
-import { HomeContainerComponent } from './page/home-container/home-container.component';
-import { HomeRoutingModule } from './home.routing';
+import {HomeContainerComponent} from './page/home-container/home-container.component';
+import {HomeRoutingModule} from './home.routing';
 
 @NgModule({
     declarations: [HomeContainerComponent],
@@ -15,4 +15,5 @@ import { HomeRoutingModule } from './home.routing';
     ],
     entryComponents: [HomeContainerComponent]
 })
-export class HomeModule { }
+export class HomeModule {
+}

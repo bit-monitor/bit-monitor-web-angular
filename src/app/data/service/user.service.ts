@@ -1,40 +1,41 @@
-import { Injectable } from '@angular/core';
-import { HttpErrorResponse } from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {HttpErrorResponse} from '@angular/common/http';
 
-import { EventService } from '@core/service/event.service';
-import { HttpService } from '@core/service/http.service';
+import {EventService} from '@core/service/event.service';
+import {HttpService} from '@core/service/http.service';
 
-import { UserInfo } from '@data/classes/userInfo.class';
-import { Project } from '@data/classes/project.class';
-import { EventModel } from '@data/classes/event.class';
+import {UserInfo} from '@data/classes/userInfo.class';
+import {Project} from '@data/classes/project.class';
+import {EventModel} from '@data/classes/event.class';
+import {FailCallback, SuccessCallback} from '@data/types/http.type';
 
 
 // 用户菜单列表
 // 注：目前暂时写死
-let userMenuList = [
+const userMenuList = [
     {
         name: '实时大盘', pageUrl: '/home', icon: 'home', children: []
     },
     {
         name: '项目日志', pageUrl: '/project', icon: 'read', children: [
             // { name: '总览', pageUrl: '/project/overview' },
-            { name: 'JS异常', pageUrl: '/project/jsErrorLog' },
-            { name: 'HTTP异常', pageUrl: '/project/httpErrorLog' },
-            { name: '静态资源异常', pageUrl: '/project/resourceLoadErrorLog' },
-            { name: '自定义异常', pageUrl: '/project/customErrorLog' },
+            {name: 'JS异常', pageUrl: '/project/jsErrorLog'},
+            {name: 'HTTP异常', pageUrl: '/project/httpErrorLog'},
+            {name: '静态资源异常', pageUrl: '/project/resourceLoadErrorLog'},
+            {name: '自定义异常', pageUrl: '/project/customErrorLog'},
         ]
     },
     {
         name: '系统管理', pageUrl: '/systemManage', icon: 'appstore', children: [
-            { name: '用户注册审核', pageUrl: '/systemManage/userRegisterAudit' },
-            { name: '项目管理', pageUrl: '/systemManage/projectManage' },
+            {name: '用户注册审核', pageUrl: '/systemManage/userRegisterAudit'},
+            {name: '项目管理', pageUrl: '/systemManage/projectManage'},
         ],
     },
     {
         name: '预警管理', pageUrl: '/alarmManage', icon: 'alert', children: [
-            { name: '预警配置', pageUrl: '/alarmManage/alarmConfig' },
-            { name: '报警记录', pageUrl: '/alarmManage/alarmRecord' },
-            { name: '报警通知记录', pageUrl: '/alarmManage/alarmNotifyRecord' },
+            {name: '预警配置', pageUrl: '/alarmManage/alarmConfig'},
+            {name: '报警记录', pageUrl: '/alarmManage/alarmRecord'},
+            {name: '报警通知记录', pageUrl: '/alarmManage/alarmNotifyRecord'},
         ]
     },
     {
@@ -57,7 +58,8 @@ export class UserService {
     constructor(
         private httpService: HttpService,
         private eventService: EventService
-    ) { }
+    ) {
+    }
 
     /**
      * 获取用户信息
@@ -83,51 +85,63 @@ export class UserService {
 
     /**
      * 获取用户列表
-     * @param params 
-     * @param successCallback 
-     * @param failCallback 
+     * @param params 参数
+     * @param successCallback 成功回调
+     * @param failCallback 失败回调
      */
-    public getUsers(params: Object, successCallback?: Function, failCallback?: Function): void {
+    public getUsers(params: object, successCallback?: SuccessCallback, failCallback?: FailCallback): void {
         this.httpService.get('/user/get', params).subscribe(
             (res: any) => {
-                successCallback && successCallback(res);
+                if (typeof successCallback === 'function') {
+                    successCallback(res);
+                }
             },
             (err: HttpErrorResponse) => {
-                failCallback && failCallback(err);
+                if (typeof failCallback === 'function') {
+                    failCallback(err);
+                }
             }
         );
     }
 
     /**
      * 查询用户注册记录
-     * @param params 
-     * @param successCallback 
-     * @param failCallback 
+     * @param params 参数
+     * @param successCallback 成功回调
+     * @param failCallback 失败回调
      */
-    public getUserRegisterRecord(params: Object, successCallback?: Function, failCallback?: Function): void {
+    public getUserRegisterRecord(params: object, successCallback?: SuccessCallback, failCallback?: FailCallback): void {
         this.httpService.get('/userRegisterRecord/get', params).subscribe(
             (res: any) => {
-                successCallback && successCallback(res);
+                if (typeof successCallback === 'function') {
+                    successCallback(res);
+                }
             },
             (err: HttpErrorResponse) => {
-                failCallback && failCallback(err);
+                if (typeof failCallback === 'function') {
+                    failCallback(err);
+                }
             }
         );
     }
 
     /**
      * 用户注册记录审批
-     * @param params 
-     * @param successCallback 
-     * @param failCallback 
+     * @param params 参数
+     * @param successCallback 成功回调
+     * @param failCallback 失败回调
      */
-    public audit(params: Object, successCallback?: Function, failCallback?: Function): void {
+    public audit(params: object, successCallback?: SuccessCallback, failCallback?: FailCallback): void {
         this.httpService.post('/userRegisterRecord/audit', params).subscribe(
             (res: any) => {
-                successCallback && successCallback(res);
+                if (typeof successCallback === 'function') {
+                    successCallback(res);
+                }
             },
             (err: HttpErrorResponse) => {
-                failCallback && failCallback(err);
+                if (typeof failCallback === 'function') {
+                    failCallback(err);
+                }
             }
         );
     }
@@ -136,7 +150,7 @@ export class UserService {
      * 设置用户获取关联的项目
      * @param list 列表
      */
-    public setUserRelatedProjectList(list: Project[]) {
+    public setUserRelatedProjectList(list: Project[]): void {
         this.userRelatedProjectList = list;
     }
 
@@ -149,17 +163,21 @@ export class UserService {
 
     /**
      * 根据用户获取关联的项目
-     * @param params 
-     * @param successCallback 
-     * @param failCallback 
+     * @param params 参数
+     * @param successCallback 成功回调
+     * @param failCallback 失败回调
      */
-    getUserRelatedProjectListAjax(params: Object, successCallback?: Function, failCallback?: Function): void {
+    getUserRelatedProjectListAjax(params: object, successCallback?: SuccessCallback, failCallback?: FailCallback): void {
         this.httpService.get('/user/getRelatedProjectList', params).subscribe(
             (res: any) => {
-                successCallback && successCallback(res);
+                if (typeof successCallback === 'function') {
+                    successCallback(res);
+                }
             },
             (err: HttpErrorResponse) => {
-                failCallback && failCallback(err);
+                if (typeof failCallback === 'function') {
+                    failCallback(err);
+                }
             }
         );
     }
@@ -168,9 +186,9 @@ export class UserService {
      * 设置用户选择的项目
      * @param project 项目
      */
-    setProjectSelected(project: Project) {
+    setProjectSelected(project: Project): void{
         this.projectSelected = project;
-        let event = new EventModel();
+        const event = new EventModel();
         event.eventName = 'projectSelectedChanged';
         event.eventPayload = this.projectSelected;
         this.eventService.eventEmitter.emit(event);
@@ -178,7 +196,6 @@ export class UserService {
 
     /**
      * 获取用户选择的项目
-     * @param project 项目
      */
     getProjectSelected(): Project {
         return this.projectSelected;

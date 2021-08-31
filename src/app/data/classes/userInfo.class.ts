@@ -1,5 +1,5 @@
 export class UserInfo {
-    hasLogin: boolean = false;
+    hasLogin = false;
     id: number;
     username: string;
     token: string;

@@ -1,15 +1,16 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import * as moment from 'moment';
-import { EChartOption } from 'echarts';
+import {EChartOption} from 'echarts';
 
-import { UserService } from '@data/service/user.service';
-import { EventService } from '@core/service/event.service';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { LogService } from '@data/service/log.service';
+import {UserService} from '@data/service/user.service';
+import {EventService} from '@core/service/event.service';
+import {NzMessageService} from 'ng-zorro-antd/message';
+import {LogService} from '@data/service/log.service';
 
-import { EventModel } from '@data/classes/event.class';
+import {EventModel} from '@data/classes/event.class';
 
-import { AUTO_REFRESH_DATA_INTERVAL } from '@core/constants/home.const';
+import {AUTO_REFRESH_DATA_INTERVAL} from '@core/constants/home.const';
+import {SuccessCallback} from '@data/types/http.type';
 
 @Component({
     selector: 'app-home-container',
@@ -25,8 +26,8 @@ export class HomeContainerComponent implements OnInit, OnDestroy {
     dataRrefreshInterval: number;
     // 时间筛选
     timeIntervalList = [
-        { label: '近一小时', value: '近一小时' },
-        { label: '今日', value: '今日' }
+        {label: '近一小时', value: '近一小时'},
+        {label: '今日', value: '今日'}
     ];
     timeRange = '近一小时';
     // 筛选条件
@@ -273,7 +274,8 @@ export class HomeContainerComponent implements OnInit, OnDestroy {
         private eventService: EventService,
         private logService: LogService,
         private message: NzMessageService
-    ) { }
+    ) {
+    }
 
     ngOnInit(): void {
         this.attachEventListener();
@@ -291,7 +293,7 @@ export class HomeContainerComponent implements OnInit, OnDestroy {
      */
     attachEventListener(): void {
         this.eventService.eventEmitter.subscribe((event: EventModel) => {
-            let { eventName, eventPayload } = event;
+            const {eventName, eventPayload} = event;
             if (eventName === 'projectSelectedChanged') {
                 this.filterForm.projectIdentifier = eventPayload.projectIdentifier;
                 this.getPageData();
@@ -308,7 +310,7 @@ export class HomeContainerComponent implements OnInit, OnDestroy {
      * 设置用户选择的项目
      */
     setProjectSelected(): void {
-        let projectSelected = this.userService.getProjectSelected();
+        const projectSelected = this.userService.getProjectSelected();
         this.filterForm.projectIdentifier = projectSelected.projectIdentifier;
     }
 
@@ -323,14 +325,15 @@ export class HomeContainerComponent implements OnInit, OnDestroy {
             startTime = moment(new Date()).add(-1, 'hours').format('YYYY-MM-DD HH:mm') + ':00';
             endTime = moment(new Date()).format('YYYY-MM-DD HH:mm') + ':00';
             timeInterval = 60;
-        }
-        else if (this.timeRange === '今日') {
+        } else if (this.timeRange === '今日') {
             startTime = moment(new Date()).format('YYYY-MM-DD') + ' 00:00:00';
             endTime = moment(new Date()).add(1, 'days').format('YYYY-MM-DD') + ' 00:00:00';
             timeInterval = 3600;
         }
-        if (!this.filterForm.projectIdentifier || !startTime || !endTime) return;
-        this.filterForm = { ...this.filterForm, startTime, endTime, timeInterval };
+        if (!this.filterForm.projectIdentifier || !startTime || !endTime) {
+            return;
+        }
+        this.filterForm = {...this.filterForm, startTime, endTime, timeInterval};
         this.getDayData(this.filterForm);
         this.getDetailData(this.filterForm);
         this.enableDataRefresh(); // 开启定时刷新统计数据的功能
@@ -338,13 +341,13 @@ export class HomeContainerComponent implements OnInit, OnDestroy {
 
     /**
      * 获取今天、昨天对比数据
-     * @param formData 
+     * @param formData 表单
      */
-    getDayData(formData: Object): void {
-        let startTime = moment(new Date()).add(-1, 'day').format('YYYY-MM-DD') + ' 00:00:00';
-        let endTime = moment(new Date()).add(1, 'day').format('YYYY-MM-DD') + ' 00:00:00';
+    getDayData(formData: object): void {
+        const startTime = moment(new Date()).add(-1, 'day').format('YYYY-MM-DD') + ' 00:00:00';
+        const endTime = moment(new Date()).add(1, 'day').format('YYYY-MM-DD') + ' 00:00:00';
         this.getLogCountBetweenDiffDate(
-            { ...formData, startTime, endTime, timeInterval: 86400 },
+            {...formData, startTime, endTime, timeInterval: 86400},
             data => {
                 this.setChartTotal(data);
             }
@@ -353,9 +356,9 @@ export class HomeContainerComponent implements OnInit, OnDestroy {
 
     /**
      * 获取详细数据
-     * @param formData 
+     * @param formData 表单
      */
-    getDetailData(formData: Object): void {
+    getDetailData(formData: object): void {
         this.getLogCountBetweenDiffDate(
             formData,
             data => {
@@ -366,20 +369,21 @@ export class HomeContainerComponent implements OnInit, OnDestroy {
 
     /**
      * 获取两个日期之间的对比数据
-     * @param formData 
+     * @param formData 表单
+     * @param successCallback 成功回调
      */
-    getLogCountBetweenDiffDate(formData: Object, successCallback: Function): void {
+    getLogCountBetweenDiffDate(formData: object, successCallback: SuccessCallback): void {
         this.isLoading = true;
         this.logService.getLogCountBetweenDiffDate(
             formData,
             res => {
                 console.log('[成功]获取两个日期之间的对比数据', res);
                 this.isLoading = false;
-                let { success, data, msg } = res;
+                const {success, data, msg} = res;
                 if (!success) {
                     this.message.error(msg || '获取两个日期之间的对比数据失败');
                 } else {
-                    successCallback && successCallback(data);
+                    successCallback(data);
                 }
             },
             err => {
@@ -391,16 +395,16 @@ export class HomeContainerComponent implements OnInit, OnDestroy {
 
     /**
      * 设置图表标题总计数据
-     * @param data 
+     * @param data 数据
      */
     setChartTotal(data: any): void {
-        let { jsErrorLog, httpErrorLog, resourceLoadErrorLog, customErrorLog } = data;
-        let getData = (array: any) => {
-            let yesterday = array[0].count;
-            let today = array[1].count;
-            let change = (today !== yesterday) && (today > yesterday ? 1 : -1);
-            let rate = yesterday === 0 ? '-' : `${(((today - yesterday) / yesterday) * 100).toFixed(2)}%`;
-            return { yesterday, today, rate, change };
+        const {jsErrorLog, httpErrorLog, resourceLoadErrorLog, customErrorLog} = data;
+        const getData = (array: any) => {
+            const yesterday = array[0].count;
+            const today = array[1].count;
+            const change = (today !== yesterday) && (today > yesterday ? 1 : -1);
+            const rate = yesterday === 0 ? '-' : `${(((today - yesterday) / yesterday) * 100).toFixed(2)}%`;
+            return {yesterday, today, rate, change};
         };
         this.chartTotalJS = getData(jsErrorLog);
         this.chartTotalHttp = getData(httpErrorLog);
@@ -410,26 +414,26 @@ export class HomeContainerComponent implements OnInit, OnDestroy {
 
     /**
      * 设置图表
-     * @param data 
+     * @param data 数据
      */
     setChartsOption(data: any): void {
-        let { jsErrorLog, httpErrorLog, resourceLoadErrorLog, customErrorLog } = data;
+        const {jsErrorLog, httpErrorLog, resourceLoadErrorLog, customErrorLog} = data;
         // 设置JS异常图表
         this.chartOptionJS.xAxis[0].data = jsErrorLog.map(item => item.key);
         this.chartOptionJS.series[0].data = jsErrorLog.map(item => item.count);
-        this.chartOptionJS = { ...this.chartOptionJS };
+        this.chartOptionJS = {...this.chartOptionJS};
         // 设置HTTP异常图表
         this.chartOptionHttp.xAxis[0].data = httpErrorLog.map(item => item.key);
         this.chartOptionHttp.series[0].data = httpErrorLog.map(item => item.count);
-        this.chartOptionHttp = { ...this.chartOptionHttp };
+        this.chartOptionHttp = {...this.chartOptionHttp};
         // 设置资源加载异常图表
         this.chartOptionRes.xAxis[0].data = resourceLoadErrorLog.map(item => item.key);
         this.chartOptionRes.series[0].data = resourceLoadErrorLog.map(item => item.count);
-        this.chartOptionRes = { ...this.chartOptionRes };
+        this.chartOptionRes = {...this.chartOptionRes};
         // 设置自定义异常图表
         this.chartOptionCus.xAxis[0].data = customErrorLog.map(item => item.key);
         this.chartOptionCus.series[0].data = customErrorLog.map(item => item.count);
-        this.chartOptionCus = { ...this.chartOptionCus };
+        this.chartOptionCus = {...this.chartOptionCus};
 
         // 设置数据更新时间
         this.setDataUpdateTime();
@@ -446,8 +450,10 @@ export class HomeContainerComponent implements OnInit, OnDestroy {
      * 开启定时刷新统计数据的功能
      */
     enableDataRefresh(): void {
-        if (this.dataRrefreshInterval) return;
-        this.dataRrefreshInterval = setInterval(() => {
+        if (this.dataRrefreshInterval) {
+            return;
+        }
+        this.dataRrefreshInterval = window.setInterval(() => {
             this.getPageData();
         }, AUTO_REFRESH_DATA_INTERVAL);
     }

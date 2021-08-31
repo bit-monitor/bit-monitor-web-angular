@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
-import { HttpErrorResponse } from '@angular/common/http';
-import { HttpService } from '@core/service/http.service';
+import {Injectable} from '@angular/core';
+import {HttpErrorResponse} from '@angular/common/http';
+import {HttpService} from '@core/service/http.service';
+import {FailCallback, SuccessCallback} from '@data/types/http.type';
 
 @Injectable({
     providedIn: 'root'
@@ -9,106 +10,131 @@ export class AlarmService {
 
     constructor(
         private httpService: HttpService
-    ) { }
+    ) {
+    }
 
     /**
      * 新增预警
-     * @param params
-     * @param successCallback
-     * @param failCallback
+     * @param params 参数
+     * @param successCallback 成功回调
+     * @param failCallback 失败回调
      */
-    public addAlarm(params: Object, successCallback?: Function, failCallback?: Function): void {
+    public addAlarm(params: object, successCallback?: SuccessCallback, failCallback?: FailCallback): void {
         this.httpService.put('/alarm/add', params).subscribe(
             (res: any) => {
-                successCallback && successCallback(res);
+                if (typeof successCallback === 'function') {
+                    successCallback(res);
+                }
             },
             (err: HttpErrorResponse) => {
-                failCallback && failCallback(err);
+                if (typeof failCallback === 'function') {
+                    failCallback(err);
+                }
             }
         );
     }
 
     /**
      * 获取预警列表
-     * @param params
-     * @param successCallback
-     * @param failCallback
+     * @param params 参数
+     * @param successCallback 成功回调
+     * @param failCallback 失败回调
      */
-    public getAlarms(params: Object, successCallback?: Function, failCallback?: Function): void {
+    public getAlarms(params: object, successCallback?: SuccessCallback, failCallback?: FailCallback): void {
         this.httpService.get('/alarm/get', params).subscribe(
             (res: any) => {
-                successCallback && successCallback(res);
+                if (typeof successCallback === 'function') {
+                    successCallback(res);
+                }
             },
             (err: HttpErrorResponse) => {
-                failCallback && failCallback(err);
+                if (typeof failCallback === 'function') {
+                    failCallback(err);
+                }
             }
         );
     }
 
     /**
      * 更新预警内容
-     * @param params
-     * @param successCallback
-     * @param failCallback
+     * @param params 参数
+     * @param successCallback 成功回调
+     * @param failCallback 失败回调
      */
-    public updateAlarm(params: Object, successCallback?: Function, failCallback?: Function): void {
+    public updateAlarm(params: object, successCallback?: SuccessCallback, failCallback?: FailCallback): void {
         this.httpService.post('/alarm/update', params).subscribe(
             (res: any) => {
-                successCallback && successCallback(res);
+                if (typeof successCallback === 'function') {
+                    successCallback(res);
+                }
             },
             (err: HttpErrorResponse) => {
-                failCallback && failCallback(err);
+                if (typeof failCallback === 'function') {
+                    failCallback(err);
+                }
             }
         );
     }
 
     /**
      * 删除预警记录
-     * @param id
-     * @param successCallback
-     * @param failCallback
+     * @param id id
+     * @param successCallback 成功回调
+     * @param failCallback 失败回调
      */
-    public deleteAlarm(id: number, successCallback?: Function, failCallback?: Function): void {
+    public deleteAlarm(id: number, successCallback?: SuccessCallback, failCallback?: FailCallback): void {
         this.httpService.delete('/alarm/delete/' + id).subscribe(
             (res: any) => {
-                successCallback && successCallback(res);
+                if (typeof successCallback === 'function') {
+                    successCallback(res);
+                }
             },
             (err: HttpErrorResponse) => {
-                failCallback && failCallback(err);
+                if (typeof failCallback === 'function') {
+                    failCallback(err);
+                }
             }
         );
     }
 
     /**
      * 获取预警记录列表
-     * @param params
-     * @param successCallback
-     * @param failCallback
+     * @param params 参数
+     * @param successCallback 成功回调
+     * @param failCallback 失败回调
      */
-    public getAlarmRecord(params: Object, successCallback?: Function, failCallback?: Function): void {
+    public getAlarmRecord(params: object, successCallback?: SuccessCallback, failCallback?: FailCallback): void {
         this.httpService.get('/alarmRecord/get', params).subscribe(
             (res: any) => {
-                successCallback && successCallback(res);
+                if (typeof successCallback === 'function') {
+                    successCallback(res);
+                }
             },
             (err: HttpErrorResponse) => {
-                failCallback && failCallback(err);
+                if (typeof failCallback === 'function') {
+                    failCallback(err);
+                }
             }
         );
     }
 
     /**
      * 获取预警记录列表
-     * @param params
-     * @param successCallback
-     * @param failCallback
+     * @param params 参数
+     * @param successCallback 成功回调
+     * @param failCallback 失败回调
      */
-    public getWithRelatedInfo(params: Object, successCallback?: Function, failCallback?: Function): void {
+    public getWithRelatedInfo(params: object, successCallback?: SuccessCallback, failCallback?: FailCallback): void {
         this.httpService.get('/subscriberNotifyRecord/getWithRelatedInfo', params).subscribe(
             (res: any) => {
-                successCallback && successCallback(res);
+                if (typeof successCallback === 'function') {
+                    successCallback(res);
+                }
             },
             (err: HttpErrorResponse) => {
-                failCallback && failCallback(err);
+                if (typeof failCallback === 'function') {
+                    failCallback(err);
+                }
             }
         );
     }

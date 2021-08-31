@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {Routes, RouterModule} from '@angular/router';
 
-import { AdvancedSearchContainerComponent } from './page/advanced-search-container/advanced-search-container.component';
+import {AdvancedSearchContainerComponent} from './page/advanced-search-container/advanced-search-container.component';
 
 const routes: Routes = [
     {
@@ -14,4 +14,5 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
-export class AdvancedSearchRoutingModule { }
+export class AdvancedSearchRoutingModule {
+}

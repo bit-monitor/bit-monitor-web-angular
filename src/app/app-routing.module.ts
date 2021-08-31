@@ -1,10 +1,10 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {Routes, RouterModule} from '@angular/router';
 
-import { AuthGuard } from '@core/guard/auth.guard';
-import { ContentLayoutComponent } from './layout/content-layout/content-layout.component';
-import { AuthLayoutComponent } from './layout/auth-layout/auth-layout.component';
-import { NotFoundLayoutComponent } from './layout/not-found-layout/not-found-layout.component';
+import {AuthGuard} from '@core/guard/auth.guard';
+import {ContentLayoutComponent} from './layout/content-layout/content-layout.component';
+import {AuthLayoutComponent} from './layout/auth-layout/auth-layout.component';
+import {NotFoundLayoutComponent} from './layout/not-found-layout/not-found-layout.component';
 
 const routes: Routes = [
     {
@@ -47,7 +47,8 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
+    imports: [RouterModule.forRoot(routes, {relativeLinkResolution: 'legacy'})],
     exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

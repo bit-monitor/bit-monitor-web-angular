@@ -1,19 +1,19 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 // ng-zorro
-import { NgZorroAntdModule } from './ng-zorro-antd.module';
+import {NgZorroAntdModule} from './ng-zorro-antd.module';
 
 // ngx-highlightjs
-import { NpxHighlightModule } from './npx-highlight.module';
+import {NpxHighlightModule} from './npx-highlight.module';
 
 // ngx-echarts
-import { NgxEchartsModule } from 'ngx-echarts';
+import {NgxEchartsModule} from 'ngx-echarts';
 
 // components
-import { SpinnerComponent } from './components/spinner/spinner.component';
-import { LogDetailComponent } from './components/log-detail/log-detail.component';
+import {SpinnerComponent} from './components/spinner/spinner.component';
+import {LogDetailComponent} from './components/log-detail/log-detail.component';
 
 @NgModule({
     declarations: [
@@ -54,4 +54,5 @@ import { LogDetailComponent } from './components/log-detail/log-detail.component
         NpxHighlightModule
     ]
 })
-export class SharedModule { }
+export class SharedModule {
+}

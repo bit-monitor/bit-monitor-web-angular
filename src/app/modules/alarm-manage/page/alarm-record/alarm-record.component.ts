@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import * as moment from 'moment';
 
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { UserService } from '@data/service/user.service';
-import { AlarmService } from '@data/service/alarm.service';
+import {NzMessageService} from 'ng-zorro-antd/message';
+import {UserService} from '@data/service/user.service';
+import {AlarmService} from '@data/service/alarm.service';
 
-import { Project } from '@data/classes/project.class';
+import {Project} from '@data/classes/project.class';
 
 @Component({
     selector: 'app-alarm-record',
@@ -26,7 +26,7 @@ export class AlarmRecordComponent implements OnInit {
         endTime: '',
     };
     // 数据列表
-    tableData: Array<Object>;
+    tableData: Array<object>;
     // 分页控制器
     paginationConfig = {
         total: 0
@@ -36,16 +36,17 @@ export class AlarmRecordComponent implements OnInit {
     timeRange = '';
     // 表格时间筛选列表
     timeIntervalList = [
-        { label: '近1小时', value: '近1小时' },
-        { label: '今日', value: '今日' },
-        { label: '近7日', value: '近7日' },
+        {label: '近1小时', value: '近1小时'},
+        {label: '今日', value: '今日'},
+        {label: '近7日', value: '近7日'},
     ];
 
     constructor(
         private userService: UserService,
         private alarmService: AlarmService,
         private message: NzMessageService,
-    ) { }
+    ) {
+    }
 
     ngOnInit(): void {
         this.setProjectSelected();
@@ -56,8 +57,7 @@ export class AlarmRecordComponent implements OnInit {
      * 设置用户选择的项目
      */
     setProjectSelected(): void {
-        let projectSelected = this.userService.getProjectSelected();
-        this.projectSelected = projectSelected;
+        this.projectSelected = this.userService.getProjectSelected();
 
         // TODO 通过projectIdentifier获取所有的alarmId，放入filterForm内作为查询条件
     }
@@ -72,11 +72,11 @@ export class AlarmRecordComponent implements OnInit {
             res => {
                 console.log('[成功]获取预警记录列表', res);
                 this.isLoading = false;
-                const { success, data, msg } = res;
+                const {success, data, msg} = res;
                 if (!success) {
                     this.message.error(msg || '获取预警记录列表失败');
                 } else {
-                    let { records, totalNum } = data;
+                    const {records, totalNum} = data;
                     this.tableData = records.map(item => ({
                         ...item,
                         createTimeText: moment(item.createTime).format('YYYY-MM-DD HH:mm:ss')
@@ -110,27 +110,25 @@ export class AlarmRecordComponent implements OnInit {
      * @param startTimeStr 开始时间
      * @param endTimeStr 结束时间
      */
-    setTimeRangePicker(startTimeStr: string, endTimeStr: string) {
-        let startTime = new Date(startTimeStr);
-        let endTime = new Date(endTimeStr);
+    setTimeRangePicker(startTimeStr: string, endTimeStr: string): void {
+        const startTime = new Date(startTimeStr);
+        const endTime = new Date(endTimeStr);
         this.timeRangePicker = [startTime, endTime];
     }
 
     /**
      * 表格数据-选择日期查询范围
      */
-    onTableTimeRangeChange() {
+    onTableTimeRangeChange(): void {
         let startTime: string;
         let endTime: string;
         if (this.timeRange === '近1小时') {
             startTime = moment(new Date()).add(-1, 'hours').format('YYYY-MM-DD HH:mm:ss');
             endTime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
-        }
-        else if (this.timeRange === '今日') {
+        } else if (this.timeRange === '今日') {
             startTime = moment(new Date()).format('YYYY-MM-DD') + ' 00:00:00';
             endTime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
-        }
-        else if (this.timeRange === '近7日') {
+        } else if (this.timeRange === '近7日') {
             startTime = moment(new Date()).add(-7, 'day').format('YYYY-MM-DD HH:mm:ss');
             endTime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
         }

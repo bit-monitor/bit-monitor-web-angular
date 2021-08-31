@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import * as moment from 'moment';
 
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { EventService } from '@core/service/event.service';
-import { UserService } from '@data/service/user.service';
-import { LogService } from '@data/service/log.service';
+import {NzMessageService} from 'ng-zorro-antd/message';
+import {EventService} from '@core/service/event.service';
+import {UserService} from '@data/service/user.service';
+import {LogService} from '@data/service/log.service';
 
-import { EventModel } from '@data/classes/event.class';
+import {EventModel} from '@data/classes/event.class';
 
 @Component({
     selector: 'app-advanced-search-container',
@@ -28,52 +28,52 @@ export class AdvancedSearchContainerComponent implements OnInit {
         conditionList: []
     };
     logTypeList = [
-        { label: 'JS异常', value: 'jsErrorLog' },
-        { label: 'HTTP异常', value: 'httpErrorLog' },
-        { label: '静态资源异常', value: 'resourceLoadErrorLog' },
-        { label: '自定义异常', value: 'customErrorLog' },
+        {label: 'JS异常', value: 'jsErrorLog'},
+        {label: 'HTTP异常', value: 'httpErrorLog'},
+        {label: '静态资源异常', value: 'resourceLoadErrorLog'},
+        {label: '自定义异常', value: 'customErrorLog'},
     ];
     timeRangeOptions = {};
     timeRangePicker: Date[];
     conditionList = [];
     conditionKeyList = [];
     conditionKeyListBasic = [
-        { label: '用户名', value: 'user_name' },
-        { label: '页面Url', value: 'page_url' },
-        { label: '设备名称', value: 'device_name' },
-        { label: '操作系统', value: 'os' },
-        { label: '操作系统版本', value: 'os_version' },
-        { label: '客户端名称', value: 'browser_name' },
-        { label: '客户端版本', value: 'browser_version' },
-        { label: 'IP地址', value: 'ip_address' },
-        { label: '地址', value: 'address' },
-        { label: '网络类型', value: 'net_type' },
+        {label: '用户名', value: 'user_name'},
+        {label: '页面Url', value: 'page_url'},
+        {label: '设备名称', value: 'device_name'},
+        {label: '操作系统', value: 'os'},
+        {label: '操作系统版本', value: 'os_version'},
+        {label: '客户端名称', value: 'browser_name'},
+        {label: '客户端版本', value: 'browser_version'},
+        {label: 'IP地址', value: 'ip_address'},
+        {label: '地址', value: 'address'},
+        {label: '网络类型', value: 'net_type'},
     ];
     conditionKeyListJsErrorLog = [
-        { label: '异常信息', value: 'error_message' },
-        { label: '异常堆栈', value: 'error_stack' },
+        {label: '异常信息', value: 'error_message'},
+        {label: '异常堆栈', value: 'error_stack'},
     ];
     conditionKeyListHttpErrorLog = [
-        { label: '请求地址', value: 'http_url_complete' },
-        { label: '请求方法', value: 'http_method' },
-        { label: '状态码', value: 'status' },
+        {label: '请求地址', value: 'http_url_complete'},
+        {label: '请求方法', value: 'http_method'},
+        {label: '状态码', value: 'status'},
     ];
     conditionKeyListResourceLoadErrorLog = [
-        { label: '资源地址', value: 'resource_url' },
-        { label: '资源类型', value: 'resource_type' },
+        {label: '资源地址', value: 'resource_url'},
+        {label: '资源类型', value: 'resource_type'},
     ];
     conditionKeyListCustomErrorLog = [
-        { label: '异常信息', value: 'error_message' },
-        { label: '异常堆栈', value: 'error_stack' },
+        {label: '异常信息', value: 'error_message'},
+        {label: '异常堆栈', value: 'error_stack'},
     ];
     conditionOpList = [
-        { label: '等于', value: '=' },
-        { label: '大于', value: '>' },
-        { label: '大于等于', value: '>=' },
-        { label: '小于', value: '<' },
-        { label: '小于等于', value: '<=' },
-        { label: '不等于', value: '!=' },
-        { label: '包含', value: 'wildcard' },
+        {label: '等于', value: '='},
+        {label: '大于', value: '>'},
+        {label: '大于等于', value: '>='},
+        {label: '小于', value: '<'},
+        {label: '小于等于', value: '<='},
+        {label: '不等于', value: '!='},
+        {label: '包含', value: 'wildcard'},
     ];
     // 日志记录列表
     logRecordList = [];
@@ -91,7 +91,8 @@ export class AdvancedSearchContainerComponent implements OnInit {
         private eventService: EventService,
         private logService: LogService,
         private message: NzMessageService
-    ) { }
+    ) {
+    }
 
     ngOnInit(): void {
         this.init();
@@ -102,7 +103,7 @@ export class AdvancedSearchContainerComponent implements OnInit {
      */
     attachEventListener(): void {
         this.eventService.eventEmitter.subscribe((event: EventModel) => {
-            let { eventName, eventPayload } = event;
+            const {eventName, eventPayload} = event;
             if (eventName === 'projectSelectedChanged') {
                 this.filterForm.projectIdentifier = eventPayload.projectIdentifier;
                 this.setProjectSelected();
@@ -114,7 +115,7 @@ export class AdvancedSearchContainerComponent implements OnInit {
      * 设置用户选择的项目
      */
     setProjectSelected(): void {
-        let projectSelected = this.userService.getProjectSelected();
+        const projectSelected = this.userService.getProjectSelected();
         this.filterForm.projectIdentifier = projectSelected.projectIdentifier;
     }
 
@@ -137,22 +138,22 @@ export class AdvancedSearchContainerComponent implements OnInit {
     setTimeRangeOptions(): void {
         const nowTime = new Date();
         this.timeRangeOptions = {
-            '近5分钟': [moment(nowTime).add(-5, 'minutes').toDate(), nowTime],
-            '近10分钟': [moment(nowTime).add(-10, 'minutes').toDate(), nowTime],
-            '近30分钟': [moment(nowTime).add(-30, 'minutes').toDate(), nowTime],
-            '近1小时': [moment(nowTime).add(-1, 'hours').toDate(), nowTime],
-            '近1天': [moment(nowTime).add(-1, 'days').toDate(), nowTime],
-            '近3天': [moment(nowTime).add(-3, 'days').toDate(), nowTime],
-            '近7天': [moment(nowTime).add(-7, 'days').toDate(), nowTime],
+            近5分钟: [moment(nowTime).add(-5, 'minutes').toDate(), nowTime],
+            近10分钟: [moment(nowTime).add(-10, 'minutes').toDate(), nowTime],
+            近30分钟: [moment(nowTime).add(-30, 'minutes').toDate(), nowTime],
+            近1小时: [moment(nowTime).add(-1, 'hours').toDate(), nowTime],
+            近1天: [moment(nowTime).add(-1, 'days').toDate(), nowTime],
+            近3天: [moment(nowTime).add(-3, 'days').toDate(), nowTime],
+            近7天: [moment(nowTime).add(-7, 'days').toDate(), nowTime],
         };
     }
 
     /**
      * 表格数据-初始化时间范围
      */
-    initTimeRange() {
-        let startTime = new Date(moment(new Date()).format('YYYY-MM-DD') + ' 00:00:00');
-        let endTime = new Date();
+    initTimeRange(): void {
+        const startTime = new Date(moment(new Date()).format('YYYY-MM-DD') + ' 00:00:00');
+        const endTime = new Date();
         this.timeRangePicker = [startTime, endTime];
         this.onSelectTimeRange([startTime, endTime]);
     }
@@ -229,16 +230,16 @@ export class AdvancedSearchContainerComponent implements OnInit {
             res => {
                 console.log('[成功]多条件高级查询', res);
                 this.isLoading = false;
-                let { success, data, msg } = res;
+                const {success, data, msg} = res;
                 if (!success) {
                     this.message.error(msg || '多条件高级查询失败');
                 } else {
-                    let { records, totalNum } = data;
+                    const {records, totalNum} = data;
                     const keyMap = {
-                        'jsErrorLog': 'errorMessage',
-                        'httpErrorLog': 'httpUrlComplete',
-                        'resourceLoadErrorLog': 'resourceUrl',
-                        'customErrorLog': 'errorMessage',
+                        jsErrorLog: 'errorMessage',
+                        httpErrorLog: 'httpUrlComplete',
+                        resourceLoadErrorLog: 'resourceUrl',
+                        customErrorLog: 'errorMessage',
                     };
                     const key = keyMap[this.filterForm.logType];
                     this.logRecordList = records.map(item => ({

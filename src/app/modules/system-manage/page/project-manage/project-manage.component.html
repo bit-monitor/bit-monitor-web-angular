@@ -108,7 +108,7 @@
                             <nz-form-control [nzSpan]="20" nzErrorTip="请选择接入方式">
                                 <nz-radio-group formControlName="accessType"
                                     [nzDisabled]="['add','edit'].indexOf(mode)===-1">
-                                    <label *ngFor="let option of accessTypeOpitons" nz-radio [nzValue]="option.value"
+                                    <label *ngFor="let option of accessTypeOptions" nz-radio [nzValue]="option.value"
                                         [nzDisabled]="option.disabled">{{option.label}}</label>
                                 </nz-radio-group>
                             </nz-form-control>

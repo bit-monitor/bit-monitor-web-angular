@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {Routes, RouterModule} from '@angular/router';
 
-import { UserRegisterAuditComponent } from './page/user-register-audit/user-register-audit.component';
-import { ProjectManageComponent } from './page/project-manage/project-manage.component';
+import {UserRegisterAuditComponent} from './page/user-register-audit/user-register-audit.component';
+import {ProjectManageComponent} from './page/project-manage/project-manage.component';
 
 const routes: Routes = [
     {
@@ -19,4 +19,5 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
-export class SystemManageRoutingModule { }
+export class SystemManageRoutingModule {
+}

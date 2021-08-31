@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
+import {NgModule} from '@angular/core';
+import {HighlightModule, HIGHLIGHT_OPTIONS} from 'ngx-highlightjs';
 
 @NgModule({
     exports: [
@@ -20,4 +20,5 @@ import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
         }
     ]
 })
-export class NpxHighlightModule { }
+export class NpxHighlightModule {
+}

@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import * as moment from 'moment';
-import { EChartOption } from 'echarts';
+import {EChartOption} from 'echarts';
 
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { EventService } from '@core/service/event.service';
-import { UserService } from '@data/service/user.service';
-import { LogService } from '@data/service/log.service';
+import {NzMessageService} from 'ng-zorro-antd/message';
+import {EventService} from '@core/service/event.service';
+import {UserService} from '@data/service/user.service';
+import {LogService} from '@data/service/log.service';
 
-import { Project } from '@data/classes/project.class';
-import { EventModel } from '@data/classes/event.class';
-import { LogRecordList } from '@data/interfaces/log.interface';
+import {Project} from '@data/classes/project.class';
+import {EventModel} from '@data/classes/event.class';
+import {LogRecordList} from '@data/interfaces/log.interface';
+import {SuccessCallback} from '@data/types/http.type';
 
 @Component({
     selector: 'app-js-error-log',
@@ -55,9 +56,9 @@ export class JsErrorLogComponent implements OnInit {
     chartTimeRangeModel = [];
     // 时间粒度可选列表
     timeIntervalOptionList = [
-        { label: '分钟', value: 60 },
-        { label: '小时', value: 3600 },
-        { label: '天', value: 86400 },
+        {label: '分钟', value: 60},
+        {label: '小时', value: 3600},
+        {label: '天', value: 86400},
     ];
     // 图表-JS异常
     logTimeChartOptionJS: EChartOption = {
@@ -128,9 +129,9 @@ export class JsErrorLogComponent implements OnInit {
     timeRangePicker: Date[];
     // 表格时间筛选列表
     timeIntervalList = [
-        { label: '近1小时', value: '近1小时' },
-        { label: '今日', value: '今日' },
-        { label: '近7日', value: '近7日' },
+        {label: '近1小时', value: '近1小时'},
+        {label: '今日', value: '今日'},
+        {label: '近7日', value: '近7日'},
     ];
     timeRange = '';
     // 日志记录列表
@@ -337,7 +338,8 @@ export class JsErrorLogComponent implements OnInit {
         private eventService: EventService,
         private logService: LogService,
         private message: NzMessageService
-    ) { }
+    ) {
+    }
 
     ngOnInit(): void {
         this.attachEventListener();
@@ -351,7 +353,7 @@ export class JsErrorLogComponent implements OnInit {
      */
     attachEventListener(): void {
         this.eventService.eventEmitter.subscribe((event: EventModel) => {
-            let { eventName, eventPayload } = event;
+            const {eventName, eventPayload} = event;
             if (eventName === 'projectSelectedChanged') {
                 this.projectIdentifier = eventPayload.projectIdentifier;
                 this.setInitData();
@@ -374,7 +376,7 @@ export class JsErrorLogComponent implements OnInit {
      * 设置用户选择的项目
      */
     setProjectSelected(): void {
-        let projectSelected = this.userService.getProjectSelected();
+        const projectSelected = this.userService.getProjectSelected();
         this.projectIdentifier = projectSelected.projectIdentifier;
     }
 
@@ -383,8 +385,8 @@ export class JsErrorLogComponent implements OnInit {
      */
     setChartInitData(): void {
         this.chartTimeRangeModel = [new Date(), new Date()];
-        let startTime = moment(new Date()).format('YYYY-MM-DD') + ' 00:00:00';
-        let endTime = moment(new Date()).add(1, 'day').format('YYYY-MM-DD') + ' 00:00:00';
+        const startTime = moment(new Date()).format('YYYY-MM-DD') + ' 00:00:00';
+        const endTime = moment(new Date()).add(1, 'day').format('YYYY-MM-DD') + ' 00:00:00';
         this.logTimeChartFilterForm = {
             ...this.logTimeChartFilterForm,
             projectIdentifier: this.projectIdentifier,
@@ -410,9 +412,9 @@ export class JsErrorLogComponent implements OnInit {
      * 获取今天、昨天对比数据
      */
     getTotalData(): void {
-        let startTime = moment(new Date()).add(-1, 'day').format('YYYY-MM-DD') + ' 00:00:00';
-        let endTime = moment(new Date()).add(1, 'day').format('YYYY-MM-DD') + ' 00:00:00';
-        let formData = {
+        const startTime = moment(new Date()).add(-1, 'day').format('YYYY-MM-DD') + ' 00:00:00';
+        const endTime = moment(new Date()).add(1, 'day').format('YYYY-MM-DD') + ' 00:00:00';
+        const formData = {
             projectIdentifier: this.projectIdentifier,
             startTime, endTime, logTypeList: 'jsErrorLog', indicatorList: 'count,uv', timeInterval: 86400
         };
@@ -426,23 +428,26 @@ export class JsErrorLogComponent implements OnInit {
 
     /**
      * 设置图表标题总计数据
-     * @param data 
+     * @param data 数据
      */
     setChartTotal(data: any): void {
-        let { jsErrorLog } = data;
-        let yesterday = jsErrorLog[0];
-        let today = jsErrorLog[1];
-        let affectUVPercentYesterday = yesterday.count === 0 ? '-' : `${((yesterday.uv / yesterday.count) * 100).toFixed(2)}%`;
-        let affectUVPercentToday = today.count === 0 ? '-' : `${((today.uv / today.count) * 100).toFixed(2)}%`;
+        const {jsErrorLog} = data;
+        const yesterday = jsErrorLog[0];
+        const today = jsErrorLog[1];
+        const affectUVPercentYesterday = yesterday.count === 0 ? '-' : `${((yesterday.uv / yesterday.count) * 100).toFixed(2)}%`;
+        const affectUVPercentToday = today.count === 0 ? '-' : `${((today.uv / today.count) * 100).toFixed(2)}%`;
         let affectUVPercentChange = 0;
         let affectUVPercentRate = '-';
         if (affectUVPercentYesterday !== '-' && affectUVPercentToday !== '-') {
-            let affectUVPercentYesterdayRate = yesterday.uv / yesterday.count;
-            let affectUVPercentTodayRate = today.uv / today.count;
-            affectUVPercentChange = (affectUVPercentTodayRate !== affectUVPercentYesterdayRate) && (affectUVPercentTodayRate > affectUVPercentYesterdayRate ? 1 : -1);
-            affectUVPercentRate = affectUVPercentYesterdayRate === 0 ? '-' : `${(((affectUVPercentTodayRate - affectUVPercentYesterdayRate) / affectUVPercentYesterdayRate) * 100).toFixed(2)}%`;
+            const affectUVPercentYesterdayRate = yesterday.uv / yesterday.count;
+            const affectUVPercentTodayRate = today.uv / today.count;
+            affectUVPercentChange = (affectUVPercentTodayRate !== affectUVPercentYesterdayRate)
+                && (affectUVPercentTodayRate > affectUVPercentYesterdayRate ? 1 : -1);
+            affectUVPercentRate = affectUVPercentYesterdayRate === 0
+                ? '-'
+                : `${(((affectUVPercentTodayRate - affectUVPercentYesterdayRate) / affectUVPercentYesterdayRate) * 100).toFixed(2)}%`;
         }
-        let totalData = {
+        this.totalData = {
             count: {
                 yesterday: yesterday.count,
                 today: today.count,
@@ -462,14 +467,13 @@ export class JsErrorLogComponent implements OnInit {
                 rate: affectUVPercentRate
             },
         };
-        this.totalData = totalData;
     }
 
     /**
      * 获取详细数据
-     * @param formData 
+     * @param formData 表单
      */
-    getLogTimeChartData(formData: Object): void {
+    getLogTimeChartData(formData: object): void {
         this.getLogCountBetweenDiffDate(
             formData,
             data => {
@@ -480,14 +484,14 @@ export class JsErrorLogComponent implements OnInit {
 
     /**
      * 设置图表
-     * @param data 
+     * @param data 数据
      */
     setLogTimeChartsOption(data: any): void {
-        let { jsErrorLog } = data;
+        const {jsErrorLog} = data;
         // 设置JS异常图表
         this.logTimeChartOptionJS.xAxis[0].data = jsErrorLog.map(item => item.key);
         this.logTimeChartOptionJS.series[0].data = jsErrorLog.map(item => item.count);
-        this.logTimeChartOptionJS = { ...this.logTimeChartOptionJS };
+        this.logTimeChartOptionJS = {...this.logTimeChartOptionJS};
     }
 
     /**
@@ -496,7 +500,7 @@ export class JsErrorLogComponent implements OnInit {
     getDistributionChartData(): void {
         const indicatorList = ['device_name', 'os', 'browser_name', 'net_type'];
         indicatorList.forEach(indicator => {
-            const { projectIdentifier, startTime, endTime } = this.tableFilterForm;
+            const {projectIdentifier, startTime, endTime} = this.tableFilterForm;
             this.logService.getLogDistributionBetweenDiffDate(
                 {
                     ...this.baseDistributionChartFilterForm,
@@ -507,7 +511,7 @@ export class JsErrorLogComponent implements OnInit {
                 },
                 res => {
                     console.log('[成功]获取分布统计图表', res);
-                    let { success, data, msg } = res;
+                    const {success, data, msg} = res;
                     if (!success) {
                         this.message.error(msg || '获取分布统计图表失败');
                         return;
@@ -523,7 +527,8 @@ export class JsErrorLogComponent implements OnInit {
 
     /**
      * 设置图表
-     * @param data 
+     * @param indicator 类型
+     * @param data 数据
      */
     setDistributionChartsOption(indicator: string, data: any): void {
         switch (indicator) {
@@ -533,7 +538,7 @@ export class JsErrorLogComponent implements OnInit {
                     value: item.count
                 }));
                 this.chartOptionDeviceName.graphic.style.text = data.reduce((max, cur) => max + cur.count, 0);
-                this.chartOptionDeviceName = { ...this.chartOptionDeviceName };
+                this.chartOptionDeviceName = {...this.chartOptionDeviceName};
                 break;
             case 'os':
                 this.chartOptionOs.series[0].data = data.map(item => ({
@@ -541,7 +546,7 @@ export class JsErrorLogComponent implements OnInit {
                     value: item.count
                 }));
                 this.chartOptionOs.graphic.style.text = data.reduce((max, cur) => max + cur.count, 0);
-                this.chartOptionOs = { ...this.chartOptionOs };
+                this.chartOptionOs = {...this.chartOptionOs};
                 break;
             case 'browser_name':
                 this.chartOptionBrowserName.series[0].data = data.map(item => ({
@@ -549,7 +554,7 @@ export class JsErrorLogComponent implements OnInit {
                     value: item.count
                 }));
                 this.chartOptionBrowserName.graphic.style.text = data.reduce((max, cur) => max + cur.count, 0);
-                this.chartOptionBrowserName = { ...this.chartOptionBrowserName };
+                this.chartOptionBrowserName = {...this.chartOptionBrowserName};
                 break;
             case 'net_type':
                 this.chartOptionNetType.series[0].data = data.map(item => ({
@@ -557,7 +562,7 @@ export class JsErrorLogComponent implements OnInit {
                     value: item.count
                 }));
                 this.chartOptionNetType.graphic.style.text = data.reduce((max, cur) => max + cur.count, 0);
-                this.chartOptionNetType = { ...this.chartOptionNetType };
+                this.chartOptionNetType = {...this.chartOptionNetType};
                 break;
             default:
                 break;
@@ -566,20 +571,21 @@ export class JsErrorLogComponent implements OnInit {
 
     /**
      * 获取两个日期之间的对比数据
-     * @param formData 
+     * @param formData 表单
+     * @param successCallback 成功回调
      */
-    getLogCountBetweenDiffDate(formData: Object, successCallback: Function): void {
+    getLogCountBetweenDiffDate(formData: object, successCallback: SuccessCallback): void {
         this.isLoading = true;
         this.logService.getLogCountBetweenDiffDate(
             formData,
             res => {
                 console.log('[成功]获取两个日期之间的对比数据', res);
                 this.isLoading = false;
-                let { success, data, msg } = res;
+                const {success, data, msg} = res;
                 if (!success) {
                     this.message.error(msg || '获取两个日期之间的对比数据失败');
                 } else {
-                    successCallback && successCallback(data);
+                    successCallback(data);
                 }
             },
             err => {
@@ -607,13 +613,13 @@ export class JsErrorLogComponent implements OnInit {
      * 图表-选择时间粒度
      */
     onChartTimeIntervalChange(): void {
-        this.getLogTimeChartData({ ...this.logTimeChartFilterForm, projectIdentifier: this.projectIdentifier });
+        this.getLogTimeChartData({...this.logTimeChartFilterForm, projectIdentifier: this.projectIdentifier});
     }
 
     /**
      * 表格数据-初始化时间范围
      */
-    initTableTimeRange() {
+    initTableTimeRange(): void {
         this.timeRange = '近1小时';
         this.onTableTimeRangeChange();
     }
@@ -623,9 +629,9 @@ export class JsErrorLogComponent implements OnInit {
      * @param startTimeStr 开始时间
      * @param endTimeStr 结束时间
      */
-    setTimeRangePicker(startTimeStr: string, endTimeStr: string) {
-        let startTime = new Date(startTimeStr);
-        let endTime = new Date(endTimeStr);
+    setTimeRangePicker(startTimeStr: string, endTimeStr: string): void {
+        const startTime = new Date(startTimeStr);
+        const endTime = new Date(endTimeStr);
         this.timeRangePicker = [startTime, endTime];
     }
 
@@ -648,18 +654,16 @@ export class JsErrorLogComponent implements OnInit {
     /**
      * 表格数据-选择日期查询范围
      */
-    onTableTimeRangeChange() {
+    onTableTimeRangeChange(): void {
         let startTime: string;
         let endTime: string;
         if (this.timeRange === '近1小时') {
             startTime = moment(new Date()).add(-1, 'hours').format('YYYY-MM-DD HH:mm:ss');
             endTime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
-        }
-        else if (this.timeRange === '今日') {
+        } else if (this.timeRange === '今日') {
             startTime = moment(new Date()).format('YYYY-MM-DD') + ' 00:00:00';
             endTime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
-        }
-        else if (this.timeRange === '近7日') {
+        } else if (this.timeRange === '近7日') {
             startTime = moment(new Date()).add(-7, 'day').format('YYYY-MM-DD HH:mm:ss');
             endTime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
         }
@@ -678,7 +682,7 @@ export class JsErrorLogComponent implements OnInit {
      * js异常日志-聚合查询
      */
     getTableList(): void {
-        let { projectIdentifier, startTime, endTime } = this.tableFilterForm;
+        const {projectIdentifier, startTime, endTime} = this.tableFilterForm;
         if (!projectIdentifier) {
             // this.message.warning('请选择项目');
             return;
@@ -693,14 +697,16 @@ export class JsErrorLogComponent implements OnInit {
             res => {
                 console.log('[成功]获取js异常日志', res);
                 this.isLoading = false;
-                let { success, data, msg } = res;
+                const {success, data, msg} = res;
                 if (!success) {
                     this.message.error(msg || '获取js异常日志失败');
                 } else {
-                    let { records, totalNum } = data;
+                    const {records, totalNum} = data;
                     this.logRecordList = records.map(item => ({
                         ...item,
-                        latestRecordTime: item.latestRecordTime ? moment(new Date(item.latestRecordTime)).format('YYYY-MM-DD HH:mm:ss') : '',
+                        latestRecordTime: item.latestRecordTime
+                            ? moment(new Date(item.latestRecordTime)).format('YYYY-MM-DD HH:mm:ss')
+                            : '',
                     }));
                     this.paginationConfig.total = totalNum;
                 }

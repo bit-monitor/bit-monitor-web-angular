@@ -1,9 +1,9 @@
-import { Component, Input, Output, OnChanges, SimpleChanges, EventEmitter } from '@angular/core';
+import {Component, Input, Output, OnChanges, SimpleChanges, EventEmitter} from '@angular/core';
 import * as moment from 'moment';
 
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { UserService } from '@data/service/user.service';
-import { LogService } from '@data/service/log.service';
+import {NzMessageService} from 'ng-zorro-antd/message';
+import {UserService} from '@data/service/user.service';
+import {LogService} from '@data/service/log.service';
 
 @Component({
     selector: 'app-log-detail',
@@ -13,7 +13,7 @@ import { LogService } from '@data/service/log.service';
 export class LogDetailComponent implements OnChanges {
 
     @Input()
-    visible: boolean = false;
+    visible = false;
     @Output()
     visibleChange = new EventEmitter();
     @Input()
@@ -27,7 +27,7 @@ export class LogDetailComponent implements OnChanges {
         pageSize: 5,
         projectIdentifier: '',
         logType: 'jsErrorLog',
-        conditionList: [{ key: 'error_message', value: '', op: '=' }],
+        conditionList: [{key: 'error_message', value: '', op: '='}],
     };
     // 选中的tab索引
     selectedTabIndex = 0;
@@ -38,11 +38,12 @@ export class LogDetailComponent implements OnChanges {
         private userService: UserService,
         private logService: LogService,
         private message: NzMessageService
-    ) { }
+    ) {
+    }
 
-    ngOnChanges(changes: SimpleChanges) {
-        if (changes['visible']) {
-            const { currentValue } = changes['visible'];
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes.visible) {
+            const {currentValue} = changes.visible;
             if (currentValue) {
                 this.setProjectSelected();
                 this.setConditionList();
@@ -57,7 +58,7 @@ export class LogDetailComponent implements OnChanges {
      * 设置用户选择的项目
      */
     setProjectSelected(): void {
-        let projectSelected = this.userService.getProjectSelected();
+        const projectSelected = this.userService.getProjectSelected();
         this.filterForm.projectIdentifier = projectSelected.projectIdentifier;
     }
 
@@ -67,13 +68,13 @@ export class LogDetailComponent implements OnChanges {
         switch (this.logType) {
             case 'jsErrorLog':
             case 'customErrorLog':
-                conditionList = [{ key: 'error_message', value: '', op: '=' }];
+                conditionList = [{key: 'error_message', value: '', op: '='}];
                 break;
             case 'httpErrorLog':
-                conditionList = [{ key: 'http_url_complete', value: '', op: '=' }];
+                conditionList = [{key: 'http_url_complete', value: '', op: '='}];
                 break;
             case 'resourceLoadErrorLog':
-                conditionList = [{ key: 'resource_url', value: '', op: '=' }];
+                conditionList = [{key: 'resource_url', value: '', op: '='}];
                 break;
             default:
                 break;
@@ -94,15 +95,15 @@ export class LogDetailComponent implements OnChanges {
             },
             res => {
                 console.log('[成功]获取详情数据', res);
-                let { success, data, msg } = res;
+                const {success, data, msg} = res;
                 if (!success) {
                     this.message.error(msg || '获取详情数据失败');
                 } else {
-                    const { records } = data;
+                    const {records} = data;
                     let resultList = [];
                     if (records instanceof Array && records.length > 0) {
                         records.forEach(record => {
-                            record.createTime = moment(new Date(record.createTime)).format('YYYY-MM-DD HH:mm:ss')
+                            record.createTime = moment(new Date(record.createTime)).format('YYYY-MM-DD HH:mm:ss');
                         });
                         resultList = records;
                     }

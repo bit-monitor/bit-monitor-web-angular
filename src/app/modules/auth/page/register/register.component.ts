@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { NzMessageService } from 'ng-zorro-antd/message';
+import {Component, OnInit} from '@angular/core';
+import {Location} from '@angular/common';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
+import {NzMessageService} from 'ng-zorro-antd/message';
 
-import { AuthService } from '@core/service/auth.service';
+import {AuthService} from '@core/service/auth.service';
 
 @Component({
     selector: 'app-register',
@@ -22,7 +22,8 @@ export class RegisterComponent implements OnInit {
         private authService: AuthService,
         private message: NzMessageService,
         private fb: FormBuilder
-    ) { }
+    ) {
+    }
 
     ngOnInit(): void {
         this.initFormData();
@@ -52,7 +53,7 @@ export class RegisterComponent implements OnInit {
      * 确认注册
      */
     onSubmit(): void {
-        let params = this.validateForm.getRawValue();
+        const params = this.validateForm.getRawValue();
         this.isLoading = true;
         this.authService.register(
             params,

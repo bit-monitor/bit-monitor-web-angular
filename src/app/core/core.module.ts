@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {HttpClientModule} from '@angular/common/http';
 
-import { AuthGuard } from './guard/auth.guard';
-import { httpInterceptorProviders } from './interceptors/base.interceptor';
+import {AuthGuard} from './guard/auth.guard';
+import {httpInterceptorProviders} from './interceptors/base.interceptor';
 
 @NgModule({
     declarations: [],
@@ -16,4 +16,5 @@ import { httpInterceptorProviders } from './interceptors/base.interceptor';
         httpInterceptorProviders
     ]
 })
-export class CoreModule { }
+export class CoreModule {
+}

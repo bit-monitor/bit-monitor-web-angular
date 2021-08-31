@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { NzMessageService } from 'ng-zorro-antd/message';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
+import {NzMessageService} from 'ng-zorro-antd/message';
 
-import { AuthService } from '@core/service/auth.service';
-import { UserService } from '@data/service/user.service';
+import {AuthService} from '@core/service/auth.service';
+import {UserService} from '@data/service/user.service';
 
 @Component({
     selector: 'app-login',
@@ -22,7 +22,8 @@ export class LoginComponent implements OnInit {
         private message: NzMessageService,
         private userService: UserService,
         private fb: FormBuilder
-    ) { }
+    ) {
+    }
 
     ngOnInit(): void {
         this.initLoginInfo();
@@ -33,7 +34,7 @@ export class LoginComponent implements OnInit {
      */
     initLoginInfo(): void {
         let loginInfo = null;
-        let storage = window.localStorage.getItem('ump-loginInfo');
+        const storage = window.localStorage.getItem('ump-loginInfo');
         if (storage) {
             loginInfo = JSON.parse(storage);
         }
@@ -49,17 +50,17 @@ export class LoginComponent implements OnInit {
         //     this.validateForm.controls[i].markAsDirty();
         //     this.validateForm.controls[i].updateValueAndValidity();
         // }
-        let { username, password, remember } = this.validateForm.getRawValue();
+        const {username, password, remember} = this.validateForm.getRawValue();
         this.isLoading = true;
         this.authService.login(
-            { username, password },
+            {username, password},
             res => {
                 console.log('[成功]登录', res);
                 this.isLoading = false;
-                const { success, data, msg } = res;
+                const {success, data, msg} = res;
                 if (success) {
                     // 将用户信息存入state及本地
-                    this.userService.setUserInfo({ ...data, hasLogin: true });
+                    this.userService.setUserInfo({...data, hasLogin: true});
                     this.authService.setToken(data.token);
                     window.sessionStorage.setItem('ump-userInfo', JSON.stringify(data));
                     // 若选择了记住密码，则将用户名、密码存入本地

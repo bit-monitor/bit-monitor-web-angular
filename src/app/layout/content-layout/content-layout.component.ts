@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { UserService } from '@data/service/user.service';
+import {NzMessageService} from 'ng-zorro-antd/message';
+import {UserService} from '@data/service/user.service';
 
-import { UserInfo } from '@data/classes/userInfo.class';
-import { Project } from '@data/classes/project.class';
+import {UserInfo} from '@data/classes/userInfo.class';
+import {Project} from '@data/classes/project.class';
 
 @Component({
     selector: 'app-content-layout',
@@ -24,12 +24,13 @@ export class ContentLayoutComponent implements OnInit {
     // 左侧菜单栏折叠状态
     isCollapsed = false;
     // 左侧菜单列表
-    menuList: Array<Object>;
+    menuList: Array<object>;
 
     constructor(
         private userService: UserService,
         private message: NzMessageService
-    ) { }
+    ) {
+    }
 
     ngOnInit(): void {
         this.getUserInfo();
@@ -61,7 +62,7 @@ export class ContentLayoutComponent implements OnInit {
             res => {
                 console.log('[成功]根据用户获取关联的项目', res);
                 this.isLoading = false;
-                const { success, data, msg } = res;
+                const {success, data, msg} = res;
                 if (!success) {
                     this.message.error(msg || '根据用户获取关联的项目失败');
                 } else if (data && data.length) {
@@ -81,7 +82,7 @@ export class ContentLayoutComponent implements OnInit {
      * 选中项目
      * @param project 选中的项目
      */
-    handleSelectProject(project: Project) {
+    handleSelectProject(project: Project): void {
         this.projectSelected = project;
         this.userService.setProjectSelected(project);
     }

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { registerLocaleData } from '@angular/common';
+import {Component, OnInit} from '@angular/core';
+import {registerLocaleData} from '@angular/common';
 import zh from '@angular/common/locales/zh';
 
 @Component({
@@ -8,7 +8,7 @@ import zh from '@angular/common/locales/zh';
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-    ngOnInit() {
+    ngOnInit(): void {
         registerLocaleData(zh);
     }
 }

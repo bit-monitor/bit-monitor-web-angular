@@ -1,17 +1,17 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import {Component, EventEmitter, OnInit} from '@angular/core';
 import * as moment from 'moment';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzModalService } from 'ng-zorro-antd/modal';
-import { UserService } from '@data/service/user.service';
-import { AlarmService } from '@data/service/alarm.service';
-import { SubscriberService } from '@data/service/subscriber.service';
+import {NzMessageService} from 'ng-zorro-antd/message';
+import {NzModalService} from 'ng-zorro-antd/modal';
+import {UserService} from '@data/service/user.service';
+import {AlarmService} from '@data/service/alarm.service';
+import {SubscriberService} from '@data/service/subscriber.service';
 
-import { Project } from '@data/classes/project.class';
-import { Alarm } from '@data/interfaces/alarm.interface';
+import {Project} from '@data/classes/project.class';
+import {Alarm} from '@data/interfaces/alarm.interface';
 
-import { NOTIFY_STATE_MAP } from '@core/constants/alarm-config.const';
+import {NOTIFY_STATE_MAP} from '@core/constants/alarm-config.const';
 
 @Component({
     selector: 'app-alarm-config',
@@ -36,73 +36,73 @@ export class AlarmConfigComponent implements OnInit {
         name: ''
     };
     // 数据列表
-    listData: Array<Object>;
+    listData: Array<object>;
     // 分页控制器
     paginationConfig = {
         total: 0
     };
     // 过滤条件选项列表
     categoryOptionsList = [
-        { label: '全部', value: 0 },
-        { label: 'JS异常', value: 1 },
-        { label: 'HTTP异常', value: 2 },
-        { label: '静态资源异常', value: 3 },
-        { label: '自定义异常', value: 4 },
+        {label: '全部', value: 0},
+        {label: 'JS异常', value: 1},
+        {label: 'HTTP异常', value: 2},
+        {label: '静态资源异常', value: 3},
+        {label: '自定义异常', value: 4},
     ];
     // 静默期选项列表
     silentPeriodOptionsList = [
-        { label: '不静默', value: 0 },
-        { label: '5分钟', value: 1 },
-        { label: '10分钟', value: 2 },
-        { label: '15分钟', value: 3 },
-        { label: '30分钟', value: 4 },
-        { label: '1小时', value: 5 },
-        { label: '3小时', value: 6 },
-        { label: '12小时', value: 7 },
-        { label: '24小时', value: 8 },
-        { label: '当天', value: 9 },
+        {label: '不静默', value: 0},
+        {label: '5分钟', value: 1},
+        {label: '10分钟', value: 2},
+        {label: '15分钟', value: 3},
+        {label: '30分钟', value: 4},
+        {label: '1小时', value: 5},
+        {label: '3小时', value: 6},
+        {label: '12小时', value: 7},
+        {label: '24小时', value: 8},
+        {label: '当天', value: 9},
     ];
     // 通知方式选项列表
     subscriberListOptionsList = [
-        { label: '钉钉机器人', value: 1 },
-        { label: '邮箱', value: 2 },
+        {label: '钉钉机器人', value: 1},
+        {label: '邮箱', value: 2},
     ];
     // 报警规则选项列表
     ruleOperatorOptionsList = [
-        { label: '满足下列所有规则', value: '&&' },
-        { label: '满足下列任一规则', value: '||' },
+        {label: '满足下列所有规则', value: '&&'},
+        {label: '满足下列任一规则', value: '||'},
     ];
     // 报警等级选项列表
     ruleLevelOptionsList = [
-        { label: 'P1-紧急', value: 2 },
-        { label: 'P2-高', value: 1 },
-        { label: 'P3-中', value: 0 },
-        { label: 'P4-低', value: -1 },
+        {label: 'P1-紧急', value: 2},
+        {label: 'P2-高', value: 1},
+        {label: 'P3-中', value: 0},
+        {label: 'P4-低', value: -1},
     ];
     // 监控指标选项列表
     ruleIndOptionsList = [
-        { label: '影响用户数', value: 'uvCount', valText: '个', aggList: 'count,avg' },
-        { label: '影响用户率', value: 'uvRate', valText: '%', aggList: 'avg' },
-        { label: '人均异常次数', value: 'perPV', valText: '个', aggList: 'count,avg' },
-        { label: '新增异常数', value: 'newPV', valText: '个', aggList: 'count,avg' },
+        {label: '影响用户数', value: 'uvCount', valText: '个', aggList: 'count,avg'},
+        {label: '影响用户率', value: 'uvRate', valText: '%', aggList: 'avg'},
+        {label: '人均异常次数', value: 'perPV', valText: '个', aggList: 'count,avg'},
+        {label: '新增异常数', value: 'newPV', valText: '个', aggList: 'count,avg'},
     ];
     // 监控指标选项列表-全部数据
     ruleOpOptionsFullList = [
-        { label: '最近N分钟总和大于', agg: 'count', op: '>', timeSpanSize: 1, interval: 1, timeSpanText: '分钟' },
-        { label: '最近N天总和大于', agg: 'count', op: '>', timeSpanSize: 1440, interval: 1440, timeSpanText: '天' },
-        { label: '最近N分钟平均值大于', agg: 'avg', op: '>', timeSpanSize: 1, interval: 1, timeSpanText: '分钟' },
-        { label: '最近N天平均值大于', agg: 'avg', op: '>', timeSpanSize: 1440, interval: 1440, timeSpanText: '天' },
-        { label: '最近N分钟平均值环比上涨大于', agg: 'avg', op: '>', timeSpanSize: 1, interval: 1, timeSpanText: '分钟' },
-        { label: '最近N分钟总和环比上涨大于', agg: 'count', op: '>', timeSpanSize: 1, interval: 1, timeSpanText: '分钟' },
-        { label: '最近N小时平均值与昨天同比上涨大于', agg: 'avg', op: 'd_up', timeSpanSize: 60, interval: 60, timeSpanText: '小时' },
-        { label: '最近N小时平均值与上周同比上涨大于', agg: 'avg', op: 'w_up', timeSpanSize: 60, interval: 60, timeSpanText: '小时' },
+        {label: '最近N分钟总和大于', agg: 'count', op: '>', timeSpanSize: 1, interval: 1, timeSpanText: '分钟'},
+        {label: '最近N天总和大于', agg: 'count', op: '>', timeSpanSize: 1440, interval: 1440, timeSpanText: '天'},
+        {label: '最近N分钟平均值大于', agg: 'avg', op: '>', timeSpanSize: 1, interval: 1, timeSpanText: '分钟'},
+        {label: '最近N天平均值大于', agg: 'avg', op: '>', timeSpanSize: 1440, interval: 1440, timeSpanText: '天'},
+        {label: '最近N分钟平均值环比上涨大于', agg: 'avg', op: '>', timeSpanSize: 1, interval: 1, timeSpanText: '分钟'},
+        {label: '最近N分钟总和环比上涨大于', agg: 'count', op: '>', timeSpanSize: 1, interval: 1, timeSpanText: '分钟'},
+        {label: '最近N小时平均值与昨天同比上涨大于', agg: 'avg', op: 'd_up', timeSpanSize: 60, interval: 60, timeSpanText: '小时'},
+        {label: '最近N小时平均值与上周同比上涨大于', agg: 'avg', op: 'w_up', timeSpanSize: 60, interval: 60, timeSpanText: '小时'},
     ];
     // 监控指标选项列表-实际显示
     ruleOpOptionsList = [];
     // 监控条件选择结果
     ruleOp = '&&';
     ruleRules = [
-        { timeSpan: null, timeSpanSize: 1, ind: "", type: "", agg: "", op: "", val: null, interval: null, timeSpanText: ' ', valText: ' ' }
+        {timeSpan: null, timeSpanSize: 1, ind: '', type: '', agg: '', op: '', val: null, interval: null, timeSpanText: ' ', valText: ' '}
     ];
     validateForm!: FormGroup;
 
@@ -113,7 +113,8 @@ export class AlarmConfigComponent implements OnInit {
         private message: NzMessageService,
         private modal: NzModalService,
         private fb: FormBuilder
-    ) { }
+    ) {
+    }
 
     ngOnInit(): void {
         this.setProjectSelected();
@@ -126,8 +127,7 @@ export class AlarmConfigComponent implements OnInit {
      * 设置用户选择的项目
      */
     setProjectSelected(): void {
-        let projectSelected = this.userService.getProjectSelected();
-        this.projectSelected = projectSelected;
+        this.projectSelected = this.userService.getProjectSelected();
 
         // 设置filterForm
         this.filterForm.projectIdentifier = this.projectSelected.projectIdentifier;
@@ -166,7 +166,18 @@ export class AlarmConfigComponent implements OnInit {
             });
             this.ruleOp = '&&';
             this.ruleRules = [
-                { timeSpan: null, timeSpanSize: 1, ind: "", type: "", agg: "", op: "", val: null, interval: null, timeSpanText: ' ', valText: ' ' }
+                {
+                    timeSpan: null,
+                    timeSpanSize: 1,
+                    ind: '',
+                    type: '',
+                    agg: '',
+                    op: '',
+                    val: null,
+                    interval: null,
+                    timeSpanText: ' ',
+                    valText: ' '
+                }
             ];
         }
     }
@@ -181,11 +192,11 @@ export class AlarmConfigComponent implements OnInit {
             res => {
                 console.log('[成功]获取预警列表', res);
                 this.isLoading = false;
-                const { success, data, msg } = res;
+                const {success, data, msg} = res;
                 if (!success) {
                     this.message.error(msg || '获取预警列表失败');
                 } else {
-                    let { records, totalNum } = data;
+                    const {records, totalNum} = data;
                     this.listData = records.map(item => {
                         const rule = JSON.parse(item.rule);
                         const subscriberList = JSON.parse(item.subscriberList);
@@ -208,7 +219,7 @@ export class AlarmConfigComponent implements OnInit {
                             levelText: this.getOptionLabelByVal(item.level, this.ruleLevelOptionsList),
                             ruleOperatorText: this.getOptionLabelByVal(rule.op, this.ruleOperatorOptionsList),
                             ruleTextList: this.getRuleTextListByRules(rule.rules),
-                            subscriberActiveList: subscriberList.filter(item => item.isActive === 1).map(item => item.category),
+                            subscriberActiveList: subscriberList.filter(({isActive}) => isActive === 1).map(({category}) => category),
                             expand: false,
                             filterForm: {
                                 pageNum: 1,
@@ -255,8 +266,8 @@ export class AlarmConfigComponent implements OnInit {
 
     /**
      * 操作按钮点击事件
-     * @param mode
-     * @param data
+     * @param mode 模式
+     * @param data 数据
      */
     handleShowDetailDialog(mode: string, data?: Alarm): void {
         if (mode === 'delete') {
@@ -285,14 +296,14 @@ export class AlarmConfigComponent implements OnInit {
      * 监听表单内容变化
      */
     onValidateFormChange(): void {
-        this.validateForm.valueChanges.subscribe(value => {
-            // const { projectIdentifier } = value;
-        });
+        // this.validateForm.valueChanges.subscribe(value => {
+        //     // const { projectIdentifier } = value;
+        // });
     }
 
     /**
      * 设置操作模式
-     * @param mode
+     * @param mode 模式
      */
     setMode(mode: string): void {
         this.mode = mode;
@@ -379,7 +390,7 @@ export class AlarmConfigComponent implements OnInit {
 
     /**
      * 根据详情数据设置页面展示数据
-     * @param data
+     * @param data 数据
      */
     setViewFormBySubmitForm(data: Alarm): any {
 
@@ -438,7 +449,7 @@ export class AlarmConfigComponent implements OnInit {
             res => {
                 console.log('[成功]新增预警', res);
                 this.isLoading = false;
-                const { success, msg } = res;
+                const {success, msg} = res;
                 if (!success) {
                     this.message.error(msg || '新增预警失败');
                 } else {
@@ -467,7 +478,7 @@ export class AlarmConfigComponent implements OnInit {
             res => {
                 console.log('[成功]编辑预警', res);
                 this.isLoading = false;
-                const { success, msg } = res;
+                const {success, msg} = res;
                 if (!success) {
                     this.message.error(msg || '编辑预警失败');
                 } else {
@@ -485,14 +496,14 @@ export class AlarmConfigComponent implements OnInit {
 
     /**
      * 删除预警
-     * @param id
+     * @param id id
      */
     deleteAlarm(id: number): void {
         this.isLoading = true;
         this.alarmService.deleteAlarm(
             id,
             res => {
-                const { success, msg } = res;
+                const {success, msg} = res;
                 this.isLoading = false;
                 if (success) {
                     console.log('[成功]删除', res);
@@ -513,8 +524,8 @@ export class AlarmConfigComponent implements OnInit {
 
     /**
      * 监控指标选择回调
-     * @param event
-     * @param index
+     * @param event 事件
+     * @param index 索引
      */
     handleRuleIndChange(event: string, index: number): void {
         const ruleOpItem = this.ruleIndOptionsList.find(item => item.value === event);
@@ -535,10 +546,10 @@ export class AlarmConfigComponent implements OnInit {
 
     /**
      * 判断取值方式的选项是否显示
-     * @param option
-     * @param rule
+     * @param option 选项
+     * @param rule 规则
      */
-    isOpOptionDisabled(option, rule) {
+    isOpOptionDisabled(option, rule): boolean {
         if (!rule.ind) {
             return true;
         }
@@ -552,8 +563,8 @@ export class AlarmConfigComponent implements OnInit {
 
     /**
      * 取值方式选择回调
-     * @param event
-     * @param index
+     * @param event 事件
+     * @param index 索引
      */
     handleRuleTypeChange(event: string, index: number): void {
         const ruleOpItem = this.ruleOpOptionsFullList.find(item => item.label === event);
@@ -577,7 +588,18 @@ export class AlarmConfigComponent implements OnInit {
      * 新增一行预警规则
      */
     handleAddRule(): void {
-        const newRuleItem = { timeSpan: null, timeSpanSize: 1, ind: "", type: "", agg: "", op: "", val: null, interval: null, timeSpanText: ' ', valText: ' ' };
+        const newRuleItem = {
+            timeSpan: null,
+            timeSpanSize: 1,
+            ind: '',
+            type: '',
+            agg: '',
+            op: '',
+            val: null,
+            interval: null,
+            timeSpanText: ' ',
+            valText: ' '
+        };
         this.ruleRules.push(newRuleItem);
     }
 
@@ -590,8 +612,8 @@ export class AlarmConfigComponent implements OnInit {
 
     /**
      * 根据选项值获取文本
-     * @param value
-     * @param optionList
+     * @param value 值
+     * @param optionList 选项列表
      */
     getOptionLabelByVal(value: string | number, optionList: Array<any>): string {
         const option = optionList.find(item => item.value === value);
@@ -604,11 +626,11 @@ export class AlarmConfigComponent implements OnInit {
 
     /**
      * 改变预案启动状态
-     * @param isActive
-     * @param data
+     * @param isActive 是否启动
+     * @param data 数据
      */
     handleChangeIsActive(isActive: boolean, data: any): void {
-        const { id } = data;
+        const {id} = data;
         const newIsActive = isActive ? 1 : 0;
         this.alarmService.updateAlarm(
             {
@@ -617,7 +639,7 @@ export class AlarmConfigComponent implements OnInit {
             },
             res => {
                 console.log('[成功]改变预案启动状态', res);
-                const { success, msg } = res;
+                const {success, msg} = res;
                 if (!success) {
                     this.message.error(msg || '操作失败');
                 } else {
@@ -633,7 +655,7 @@ export class AlarmConfigComponent implements OnInit {
 
     /**
      * 将后台存放的预警规则字符串，转换为页面显示的列表
-     * @param list
+     * @param list 列表
      */
     getRuleTextListByRules(list: Array<any>): Array<string> {
         if (!(list instanceof Array) || list.length === 0) {
@@ -655,8 +677,8 @@ export class AlarmConfigComponent implements OnInit {
 
     /**
      * 行展开或折叠
-     * @param event
-     * @param row
+     * @param event 事件
+     * @param row 行
      */
     handleAlarmRowExpand(event: boolean, row: any): void {
         if (event) {
@@ -672,7 +694,7 @@ export class AlarmConfigComponent implements OnInit {
 
     /**
      * 获取预警记录列表
-     * @param row
+     * @param row 行
      */
     getAlarmRecordList(row: any): void {
         this.isLoading = true;
@@ -681,14 +703,14 @@ export class AlarmConfigComponent implements OnInit {
             res => {
                 console.log('[成功]获取预警记录列表', res);
                 this.isLoading = false;
-                const { success, data, msg } = res;
+                const {success, data, msg} = res;
                 if (!success) {
                     this.message.error(msg || '获取预警记录列表失败');
                 } else {
-                    let { records, totalNum } = data;
+                    const {records, totalNum} = data;
                     row.children = records.map(item => ({
                         ...item,
-                        createTimeText: moment(item.createTime).format("YYYY-MM-DD HH:mm:ss"),
+                        createTimeText: moment(item.createTime).format('YYYY-MM-DD HH:mm:ss'),
                         expand: false,
                         filterForm: {
                             pageNum: 1,
@@ -700,7 +722,7 @@ export class AlarmConfigComponent implements OnInit {
                         },
                         children: []
                     }));
-                    row.paginationConfig = { total: totalNum };
+                    row.paginationConfig = {total: totalNum};
                 }
             },
             err => {
@@ -712,8 +734,8 @@ export class AlarmConfigComponent implements OnInit {
 
     /**
      * 报警记录行展开或折叠
-     * @param event
-     * @param row
+     * @param event 事件
+     * @param row 行
      */
     handleNotifyRowExpand(event: boolean, row: any): void {
         if (event) {
@@ -729,7 +751,7 @@ export class AlarmConfigComponent implements OnInit {
 
     /**
      * 获取报警记录列表
-     * @param row
+     * @param row 行
      */
     getNotifyRecordList(row: any): void {
         this.isLoading = true;
@@ -738,17 +760,17 @@ export class AlarmConfigComponent implements OnInit {
             res => {
                 console.log('[成功]获取报警记录列表', res);
                 this.isLoading = false;
-                const { success, data, msg } = res;
+                const {success, data, msg} = res;
                 if (!success) {
                     this.message.error(msg || '获取预警记录列表失败');
                 } else {
-                    let { records, totalNum } = data;
+                    const {records, totalNum} = data;
                     row.children = records.map(item => ({
                         ...item,
-                        createTimeText: moment(item.createTime).format("YYYY-MM-DD HH:mm:ss"),
+                        createTimeText: moment(item.createTime).format('YYYY-MM-DD HH:mm:ss'),
                         stateText: NOTIFY_STATE_MAP[item.state]
                     }));
-                    row.paginationConfig = { total: totalNum };
+                    row.paginationConfig = {total: totalNum};
                 }
             },
             err => {
